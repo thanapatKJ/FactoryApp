@@ -1,0 +1,18 @@
+{% extends 'employee/header.html' %}
+
+{% block content %}
+    <h2 align="center">งานของวันนี้</h2>
+    <h4 align="center">{{today.date}}</h4>
+
+    {% if not data %}
+      <br>
+      <br>
+      <h2 align="center" style="color:tomato">ไม่มีงานในวันนี้</h2>
+    {% else %}
+      <a>ชื่องาน : {{data.plan.work_group.work_group}}</a>
+      <a>เวลาเริ่มงาน : {{data.plan.datetime_start}}      เวลาเข้างานจริง : {{data.datetime_checkin}}</a><br>
+      <a>เวลาเลิกงาน : {{data.plan.datetime_end}}      เวลาออกงานจริง : {{data.datetime_checkout}}</a><br>
+      <a>OT จำกัดของวันนี้ : {{data.plan.limit_OT_hour}}     จำนวน OT ที่ได้รับ : {{data.ot_hour}}</a><br>
+    {% endif %}
+
+{% endblock %}
