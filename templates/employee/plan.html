@@ -5,34 +5,30 @@
 
 <form action="" method="post">
   {% csrf_token %} 
-  <input type="month" id="start" name="month" min="2018-03" value="" required>
+  <input type="month" id="month" name="month" min="{{thismonth}}" value={{time}} required>
   <input type="submit" value="ยืนยัน">
 </form>
-<h2 align="center"></h2>
+
+{% if not data %}
+<br>
+<br>
+<h2 align="center" style="color:tomato">ไม่มีแผนงานในเดือนที่เลือก {{thismonth}}</h2>
+{% else %}
 <table class="table">
-    <thead>
-        <tr>
-            <th scope="col">กลุ่มงาน</th>
-            <th scope="col">วันที่เข้างาน</th>
-            <th scope="col">เวลาที่เข้างาน</th>
-            <th scope="col">วันที่เลิกงาน</th>
-            <th scope="col">เวลาที่เลิกงาน</th>
-            <th scope="col">ชั่วโมง OT สูงสุด</th>
-        </tr>
-    </thead>
-    <tbody id="table-data">
-      {% for object in data %}
-      <tr class="table-active" id="table">
-        <td>{{object.datetime.work_group}}</td>
-        <td>{{object.datetime.datetime_start.date}}</td>
-        <td>{{object.datetime.datetime_start.time}}</td>
-        <td>{{object.datetime.datetime_end.date}}</td>
-        <td>{{object.datetime.datetime_end.time}}</td>
-        <td>{{object.datetime.limit_OT_hour}}</td>
+  <thead>
+      <tr>
+          <th scope="col">วันที่เข้างาน</th>
+          <th scope="col">กลุ่มงาน</th>
       </tr>
-      {% empty %}
-        <a style="color: red">ไม่มีข้อมูล</a>
-      {% endfor %}
-    </tbody>
-  </table>
+  </thead>
+  <tbody id="table-data">
+    {% for object in data %}
+    <tr class="table-active" id="table">
+      <td><a href="{% url 'employee:planInfo' object.id %}">{{object.plan.datetime_start.date}}</a></td>
+      <td><a>{{object.plan.work_group}}</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
 {% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'employee/header.html' %}
+
+{% block content %}
+    <h2 align="center">แผนงานในวันที่</h2>
+    <h4 align="center">{{thisdate}}</h4>
+      <a>ชื่องาน : {{data.plan.work_group.work_group}}</a><br>
+      <a>เวลาเริ่มงาน : {{data.plan.datetime_start}}</a><br>
+      <a>เวลาเลิกงาน : {{data.plan.datetime_end}}</a><br>
+      <a>OT จำกัดของวันนี้ : {{data.plan.limit_ot_hour}}<br>
+      <br>
+      <br>
+
+{% endblock %}

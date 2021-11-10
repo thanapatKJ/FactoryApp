@@ -1,0 +1,12 @@
+{% extends 'employee/header.html' %}
+
+{% block content %}
+    <h4 align="center">{{thisdate}}</h4>
+      <a>ชื่องาน : {{data.plan.work_group.work_group}}</a><br>
+      <a>เวลาเริ่มงาน : {{data.plan.datetime_start}}      เวลาเข้างานจริง : {% if not data.datetime_checkin%}-{% else %}{{data.datetime_checkin}}{% endif %}</a><br>
+      <a>เวลาเลิกงาน : {{data.plan.datetime_end}}      เวลาออกงานจริง : {% if not data.datetime_checkin%}-{% else %}{{data.datetime_checkout}}{% endif %}</a><br>
+      <a>OT จำกัดของวันนี้ : {{data.plan.limit_ot_hour}}     จำนวน OT ที่ได้รับ : {% if not data.datetime_checkin%}-{% else %}{{data.ot_hour}}{% endif %}</a><br>
+      <br>
+      <br>
+
+{% endblock %}

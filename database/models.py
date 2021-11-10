@@ -19,10 +19,10 @@ class User(AbstractUser):
         return str(self.first_name) + " " + str(self.last_name) +" - "+str(self.roles)
 
 class WorkGroup(models.Model):
-    work_group = models.CharField(max_length=50,primary_key=True)
+    work_group = models.CharField(max_length=50)
     manager = models.ManyToManyField(User)
     def __str__(self):
-        return str(self.work_group)+" : "+ str(self.manager)
+        return str(self.work_group)
 
 class WorkPlan(models.Model):
     work_group = models.ForeignKey(WorkGroup,on_delete=models.CASCADE)
