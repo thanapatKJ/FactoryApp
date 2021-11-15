@@ -11,5 +11,4 @@ urlpatterns = [
     path('plan/', views.plan, name="plan"),
     path('plan/<str:id>', views.planInfo, name="planInfo"),
 
-
 ]

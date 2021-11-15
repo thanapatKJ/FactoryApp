@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'database',
     'manager',
     'employee',
+    'adm',
     'rest_framework',
 ]
 

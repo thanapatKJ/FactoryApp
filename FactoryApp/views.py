@@ -12,11 +12,13 @@ from django.contrib import messages
 @login_required
 def index(request):
     if request.user.roles == 'ผู้ดูแล':
-        return redirect('/admin/')
+        return redirect('/adm/')
     elif request.user.roles == 'หัวหน้างาน':
         return redirect('/manager/')
     elif request.user.roles == 'พนักงาน':
         return redirect('/employee/')
+    elif request.user.is_superuser == 'พนักงาน':
+        return redirect('/admin/')
     else:
         return redirect('/logout/')
 

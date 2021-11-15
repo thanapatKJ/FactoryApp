@@ -1,0 +1,16 @@
+{% extends 'adm/header.html' %}
+
+{% block content %}
+    <h1>ข้อมูลพนักงาน</h1></br>
+    <a>Username : <b>{{user.username}}</b></a></br>
+    <a>First Name : <b>{{user.first_name}}</b></a></br>
+    <a>Last Name : <b>{{user.last_name}}</b></a></br>
+    <a>Email : <b>{{user.email}}</b></a></br>
+    <a>ID พนักงาน : <b>{{user.id_card}}</b></a></br>
+    <a>ตำแหน่ง : <b>{{user.roles}}</b></a></br></br>
+    <form method='POST'>
+        {% csrf_token %}
+        <button type="submit" name='changepassword' class="btn btn-info">เปลี่ยนรหัสผ่าน</button>
+    </form>
+
+{% endblock %}

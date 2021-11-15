@@ -1,0 +1,38 @@
+{% extends 'adm/header.html' %}
+
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %} 
+        <input type="text" id="search" placeholder="Seach ชื่อกลุ่ม"   required>
+        <input type="submit" value="ยืนยัน">
+    </form>
+    {% if not data %}
+    <br>
+    <br>
+    <h2 align="center" style="color:tomato">ไม่มีกลุ่มงาน {{search}}</h2>
+    {% else %}
+    <table class="table">
+      <thead>
+          <tr>
+              <th scope="col">ลำดับที่</th>
+              <th scope="col">ชื่อกลุ่มงาน</th>
+          </tr>
+      </thead>
+      <tbody id="table-data">
+        {% for object in data %}
+        <tr class="table-active" id="table">
+          <td><a>{{forloop.counter}}</a></td>
+          <td><a href="{% url 'adm:group' gid=object.id %}">{{object.work_group}}</a></td>
+          <td><a style="color:tomato" href="{% url 'adm:deleteWorkGroup' object.id %}">ลบงาน</a></td>
+
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <form method='POST'>
+      {% csrf_token %}
+      <button type="submit" name='addworkgroup' class="btn btn-success">เพิ่มงานใหม่</button>
+    </form>
+    {% endif %}
+    
+{% endblock %}

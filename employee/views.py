@@ -16,7 +16,6 @@ def index(request):
         plan__datetime_start__month = datetime.now().month,
         plan__datetime_start__day = datetime.now().day,
         plan__datetime_start__year = datetime.now().year)
-    print(data[0].plan.work_group.work_group)
     return render(request, 'employee/index.html',{
         'data':data,
         'today':today,
@@ -78,7 +77,7 @@ def history(request):
             user=user,
             plan__datetime_start__month=month,
             plan__datetime_start__year=year).filter(
-                plan__datetime_end__lt=datetime.now()).order_by('datetime_checkin')
+                plan__datetime_end__lt=datetime.now()).order_by('plan__datetime_start')
     print(data)
     return render(request,'employee/history.html',{
         'data':data,

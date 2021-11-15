@@ -15,12 +15,17 @@ class User(AbstractUser):
     )
     roles = models.CharField(max_length=30,choices=ROLES,null=False)
 
-    def __str__(self):
+    class Meta:
+        ordering = ["roles"]
+    def __str__(self): 
         return str(self.first_name) + " " + str(self.last_name) +" - "+str(self.roles)
 
 class WorkGroup(models.Model):
-    work_group = models.CharField(max_length=50)
+    work_group = models.CharField(max_length=50,unique=True)
     manager = models.ManyToManyField(User)
+
+    class Meta:
+        ordering = ["work_group"]
     def __str__(self):
         return str(self.work_group)
 
@@ -31,6 +36,8 @@ class WorkPlan(models.Model):
     datetime_end = models.DateTimeField(null=False,blank=False)
     limit_ot_hour = models.FloatField(default=0.0)
 
+    # class Meta:
+    #     ordering = ["work_grou"]
     def __str__(self):
         return str(self.work_group.work_group)+": ("+str(self.datetime_start)+") - ("+str(self.datetime_end)+")"
 
