@@ -105,7 +105,7 @@ DATABASES = {
 #     },
 # ]
 
-AUTH_USER_MODEL = 'database.User'
+AUTH_USER_MODEL = 'database.Users'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

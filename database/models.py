@@ -1,52 +1,83 @@
 from django.db import models
 
 
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group
 from django.db.models.fields import TextField
 from django.db.models.fields.related import ForeignKey, OneToOneField
 
 
-class User(AbstractUser):
-    id_card = models.CharField(null=False,blank=False,max_length=13)
-    ROLES = (
-        ('หัวหน้างาน','หัวหน้างาน'),
-        ('พนักงาน','พนักงาน'),
-        ('ผู้ดูแล','ผู้ดูแล'),
-    )
-    roles = models.CharField(max_length=30,choices=ROLES,null=False)
+
+class Branchs(models.Model):
+    name = models.CharField(max_length=30,primary_key=True)
 
     class Meta:
-        ordering = ["roles"]
+        ordering=["name"]
+    def __str__(self):
+        return str(self.name)
+    
+class Users(AbstractUser):
+    id_card = models.CharField(null=False,blank=False,max_length=13)
+    ROLES = (
+        ('ผู้ดูแล','ผู้ดูแล'),
+        ('หัวหน้างาน','หัวหน้างาน'),
+        ('พนักงาน','พนักงาน'),
+    )
+    roles = models.CharField(max_length=30,choices=ROLES,null=False)
+    # class Meta:
+    #     ordering = ["roles"]
     def __str__(self): 
         return str(self.first_name) + " " + str(self.last_name) +" - "+str(self.roles)
 
-class WorkGroup(models.Model):
-    work_group = models.CharField(max_length=50,unique=True)
-    manager = models.ManyToManyField(User)
-
+class WorkBranchs(models.Model):
+    branch = models.ForeignKey(Branchs ,on_delete=models.CASCADE)
+    user = models.ForeignKey(Users,on_delete=models.SET_NULL,null=True)
     class Meta:
-        ordering = ["work_group"]
+        ordering= ["branch"]
     def __str__(self):
-        return str(self.work_group)
+        return str(self.branch.name)+ " - "+str(self.user.first_name)+" "+str(self.user.last_name)
 
-class WorkPlan(models.Model):
-    work_group = models.ForeignKey(WorkGroup,on_delete=models.CASCADE)
-    datetime = models.CharField(max_length=80,primary_key=True)
+class WorkGroups(models.Model):
+    branch = models.ForeignKey(Branchs,on_delete=models.CASCADE)
+    group_name = models.CharField(max_length=50,unique=True,)
+
+class ManageBranchs(models.Model):
+    manager = OneToOneField(Users,on_delete=models.CASCADE)
+    branch = OneToOneField(Branchs,on_delete=models.CASCADE)
+    class Meta:
+        ordering = ["branch"]
+
+class WorkPlans(models.Model):
+    group_name = models.ForeignKey(WorkGroups,on_delete=models.CASCADE)
     datetime_start = models.DateTimeField(null=False,blank=False)
     datetime_end = models.DateTimeField(null=False,blank=False)
     limit_ot_hour = models.FloatField(default=0.0)
+    class Meta:
+        ordering = ["group_name"]
+    # def __str__(self):
+    #     return str(self.work_group.work_group)+": ("+str(self.datetime_start)+") - ("+str(self.datetime_end)+")"
 
-    # class Meta:
-    #     ordering = ["work_grou"]
-    def __str__(self):
-        return str(self.work_group.work_group)+": ("+str(self.datetime_start)+") - ("+str(self.datetime_end)+")"
-
-class UserHistory(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    plan = models.ForeignKey(WorkPlan,on_delete=models.CASCADE)
+class UserHistories(models.Model):
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    plan = models.ForeignKey(WorkPlans,on_delete=models.CASCADE)
     datetime_checkin = models.DateTimeField(null=True,blank=True)
     datetime_checkout = models.DateTimeField(null=True,blank=True)
     ot_hour = models.FloatField(null=True,blank=True)
+    custom_ot = models.BooleanField(default=False)
+    # class Meta:
+    #     ordering = ["-plan.datetime_start"]
+    # def __str__(self):
+    #     return str(self.user.first_name) +" "+str(self.user.last_name) + " - "+str(self.plan.work_group.work_group)+" "+str(self.plan.datetime)    
 
-    def __str__(self):
-        return str(self.user.first_name) +" "+str(self.user.last_name) + " - "+str(self.plan.work_group.work_group)+" "+str(self.plan.datetime)
+class Machines(models.Model):
+    branch = models.ForeignKey(Branchs, on_delete=models.SET_NULL,null=True)
+    name = models.CharField(max_length=30)
+    choice = (
+        ('ปกติ','ปกติ'),
+        ('ส่งซ่อม','ส่งซ่อม'),
+        ('เสียหาย','เสียหาย'),
+    )
+    status = models.CharField(max_length=30,choices=choice,null=False)
+
+# class MachineUsages(models.Model):
+#     user = ForeignKey(Users,on_delete=models.CASCADE)
+#     machines = OneToOneField()
