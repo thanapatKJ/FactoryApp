@@ -25,7 +25,6 @@ def addWorkGroup(request):
     if request.method == "POST":
         form = WorkGroupPlan(request.POST)  
         if form.is_valid():
-            print('valid')
             form.save()
             return redirect('/')
     return render(request, 'adm/addWorkGroup.html' ,{
@@ -87,8 +86,6 @@ def register(request):
         if form.is_valid():
             form.save()
             return redirect('adm:userInfo')
-        else:
-            print("invalid")
     return render(request,'adm/register.html',{'form':form})
 
 def deleteUser(request,uid):
@@ -100,17 +97,13 @@ def eachUser(request,uid):
         if 'edit' in request.POST:
             user = User.objects.get(id=uid)
             if user.roles=="หัวหน้างาน" and request.POST.get('roles') != "หัวหน้างาน":
-                work = WorkGroup.objects.filter(manager=user)
-                print('demote')
-
+                work = WorkGroup.objects.filter(manager=user).delete()
             elif user.roles=="พนักงาน" and request.POST.get('roles') != "พนักงาน":
-                print('promote')
                 work = UserHistory.objects.filter(
                     user=user,
                     plan__datetime_start__gt=datetime.now()).delete()
             user.username=request.POST.get('username')
             user.first_name=request.POST.get('first_name')
-            # print(user)
             user.last_name=request.POST.get('last_name')
             user.email=request.POST.get('email')
             user.roles=request.POST.get('roles')
@@ -131,7 +124,7 @@ def changepassword(request,uid):
         form = SetPasswordForm(user=user, data=request.POST)
         if form.is_valid():
             user = form.save()
-            update_session_auth_hash(request, user)  # Important!
+            update_session_auth_hash(request, user)
             messages.success(request, 'Your password was successfully updated!')
             return redirect('adm:eachUser',uid=uid)
         else:
@@ -147,7 +140,7 @@ def selfChangePass(request):
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
-            update_session_auth_hash(request, user)  # Important!
+            update_session_auth_hash(request, user)
             messages.success(request, 'Your password was successfully updated!')
             return redirect('adm:userInfo')
         else:

@@ -4,4 +4,6 @@ from . import views
 app_name='manager'
 urlpatterns = [
     path('', views.index, name="index"),
+    path('Plan/', views.Plan, name="Plan"),
+
 ]

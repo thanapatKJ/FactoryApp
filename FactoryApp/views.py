@@ -23,6 +23,7 @@ def index(request):
         return redirect('/logout/')
 
 def login(request):
+    messages=""
     if request.user.is_authenticated:
         return redirect('/')
     elif request.method == 'POST':
@@ -33,8 +34,10 @@ def login(request):
             auth_login(request, user)
             return redirect('/')
         else:
-            messages.info(request, 'Username หรือ Password ไม่ถูกต้อง')
-    return render(request,'login.html')
+            messages = 'Username หรือ Password ไม่ถูกต้อง'
+    return render(request,'login.html',{
+        "messages":messages
+    })
 
 @login_required
 def logout(request):

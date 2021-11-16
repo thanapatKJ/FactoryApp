@@ -1,0 +1,19 @@
+{% extends 'manager/header.html' %}
+
+{% block content %}
+<form action="" method="post">
+  {% csrf_token %} 
+  <input type="month" id="month" name="month" min="{{thismonth}}" value={{selected_date}} required>
+  <input type="submit" value="ยืนยัน">
+</form>
+
+    <h2 align="center">ตารางงาน</h2>
+    {% if not data %}
+      <br>
+      <br>
+      <h2 align="center" style="color:tomato">ไม่มีกลุ่มงานที่ต้องดูแล</h2>
+    {% else %}
+        
+    {% endif %}
+
+{% endblock %}

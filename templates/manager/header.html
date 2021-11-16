@@ -47,21 +47,12 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
-      {% if user.is_authenticated %}        
-        <li class="nav-item active"></li><a class="nav-link" href="{% url 'webapp:index' %}">หน้าหลัก <span class="sr-only">(current)</span></a></li>
-        <li class="nav-item active"></li><a class="nav-link" href="{% url 'webapp:history' %}">ประวัติ <span class="sr-only">(current)</span></a></li>
-        <li class="nav-item active"></li><a class="nav-link" href="{% url 'webapp:plan' %}">แผนงาน <span class="sr-only">(current)</span></a></li>
-      {%endif %}
+        <li class="nav-item active"></li><a class="nav-link" href="{% url 'manager:index' %}">งานของวันนี้ <span class="sr-only">(current)</span></a></li>
+        <li class="nav-item active"></li><a class="nav-link" href="{% url 'manager:Plan' %}">ตารางงาน <span class="sr-only">(current)</span></a></li>
+        <!-- <li class="nav-item active"></li><a class="nav-link" href="">ประวัติการใช้งาน <span class="sr-only">(current)</span></a></li> -->
     </ul>
-    <div>
-      {% if user.is_authenticated %}        
-        {{user.first_name}} {{user.last_name}} - {{user.roles}}
-        <a class="btn btn-dark" href="{% url 'webapp:logout' %}">Logout</a>        
-      {% else %}          
-        <a class="btn" href="{% url 'webapp:register' %}">Register</a>         
-        <a class="btn btn-dark" href="{% url 'webapp:login' %}">Login</a>
-      {% endif %}  
-    </div>
+        <a class="nav-link" style='color:aliceblue'href="{% url 'employee:info' %}" >{{user.first_name}} {{user.last_name}} - {{user.roles}}</a>
+        <a class="btn btn-dark" href="{% url 'logout' %}">Logout</a>        
   </div>
 </nav>
 

@@ -1,0 +1,21 @@
+{% extends 'manager/header.html' %}
+
+{% block content %}
+    <h2 align="center">กลุ่มงานของวันนี้</h2>
+    <h4 align="center">{{today.date}}</h4>
+    {% if not data %}
+      <br>
+      <br>
+      <h2 align="center" style="color:tomato">ไม่มีงานที่ต้องดูแลในวันนี้</h2>
+    {% else %}
+    {% for each in data %}
+      <a>ชื่องาน : {{each.work_group}}</a><br>
+      <a>เวลาเริ่มงาน : {{each.plan.datetime_start}}      เวลาเลิกงาน : {{each.plan.datetime_end}}</a><br>
+      <a>เวลาเลิกงาน : {{each.plan.datetime_end}}      เวลาออกงานจริง : {% if not each.datetime_checkin%}-{% else %}{{each.datetime_checkout}}{% endif %}</a><br>
+      <a>OT จำกัดของวันนี้ : {{each.plan.limit_OT_hour}}     จำนวน OT ที่ได้รับ : {% if not each.datetime_checkin%}-{% else %}{{each.ot_hour}}{% endif %}</a><br>
+      <br>
+      <br>
+    {% endfor %}
+    {% endif %}
+
+{% endblock %}
