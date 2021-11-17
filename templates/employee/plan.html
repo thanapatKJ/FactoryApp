@@ -25,7 +25,7 @@
     {% for object in data %}
     <tr class="table-active" id="table">
       <td><a href="{% url 'employee:planInfo' object.id %}">{{object.plan.datetime_start.date}}</a></td>
-      <td><a>{{object.plan.work_group}}</a></td>
+      <td><a>{{object.plan.group_name}}</a></td>
     </tr>
     {% endfor %}
   </tbody>

@@ -2,16 +2,16 @@
 
 {% block content %}
 <h2 align="center" style="color:tomato">เพิ่มหัวหน้างาน</h2>
-<h2 align="center" style="color:tomato">{{group.work_group}}</h2>
+<h2 align="center" style="color:tomato">{{branch.name}}</h2>
     <form method="POST">
     {% csrf_token %}
-    {% if not manager %}
+    {% if not free_manager %}
         <br>
         <br>
         <h5 align="center" style="color:tomato">ไม่มีหัวหน้างานว่าง</h5>
     {% else %}
-    <select name ="เพิ่มหัวหน้างาน" multiple size = 6> 
-        {% for user in manager %}
+    <select name ="เพิ่มหัวหน้างาน" size = 6> 
+        {% for user in free_manager %}
             <option value ="{{user.id}}">หัวหน้างาน - {{user.first_name}}  {{user.last_name}}  </option>
         {% endfor %}
     </select>

@@ -1,6 +1,6 @@
 # from django.shortcuts import render
 # from datetime import datetime
-# from database.models import UserHistory, WorkGroup, WorkPlan
+# from database.models import UserHistories, WorkGroups, WorkPlans
 
 # def index(request):
 #     today = datetime.now()

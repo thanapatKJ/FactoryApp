@@ -1,0 +1,87 @@
+{% extends 'adm/header.html' %}
+
+{% block content %}
+    <form method='POST'>
+    {% csrf_token %}
+    <h2 align="center" style="color:tomato">{{branch.name}}</h2>
+    {% if not manager %}
+    <h5 align="center" style="color:tomato">ไม่พบหัวหน้างาน</h5>
+    <button type="submit" class="btn btn-success" name="addmanager">เพิ่มหัวหน้างาน</button>
+    {% else %}
+    <h5 align="center" style="color:tomato">หัวหน้างาน</h5>
+    <table class="table">
+      <thead>
+          <tr>
+              <th scope="col">id</th>
+              <th scope="col">ชื่อ นามสกุล</th>
+              <th scope="col">ตำแหน่ง</th>
+              <th scope="col">email</th>
+          </tr>
+      </thead>
+      <tbody id="table-data">
+        <tr class="table-active" id="table">
+          <td><a>{{manager.id_card}}</a></td>
+          <td><a>{{manager.first_name}} {{manager.last_name}}</a></td>
+          <td><a>{{manager.roles}}</a></td>
+          <td><a>{{manager.email}}</a></td>
+          <td><a style="color:tomato" href="{% url 'adm:removeManager' name=branch.name mid=manager.id %}">ลบหัวหน้างาน</a></td>
+        </tr>
+      </tbody>
+    </table>
+    {% endif %}
+    <br>
+    <br>
+    {% if not group %}
+    <h5 align="center" style="color:tomato">ไม่มีกลุ่ม</h5>
+    {% else %}
+    <h5 align="center" style="color:tomato">กลุ่ม</h5>
+    <table class="table">
+      <thead>
+          <tr>
+              <th scope="col">ลำดับที่</th>
+              <th scope="col">ชื่อกลุ่ม</th>
+          </tr>
+      </thead>
+      <tbody id="table-data">
+        {% for object in group %}
+        <tr class="table-active" id="table">
+          <td><a>{{forloop.counter}}</a></td>
+          <td><a>{{object.group_name}}</a></td>
+          <td><a style="color:tomato" href="{% url 'adm:deleteGroup' name=branch.name gid=object.id %}">ลบกลุ่ม</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+    <button type="submit" class="btn btn-success" name="addgroup">เพิ่มกลุ่ม</button>   
+    <br>
+    <br>
+    {% if not worker %}
+    <h5 align="center" style="color:tomato">ไม่มีพนักงาน</h5>
+    {% else %}
+    <h5 align="center" style="color:tomato">พนักงาน</h5>
+    <table class="table">
+      <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">ชื่อ นามสกุล</th>
+            <th scope="col">email</th>
+          </tr>
+      </thead>
+      <tbody id="table-data">
+        {% for object in worker %}
+        <tr class="table-active" id="table">
+          <td><a>{{object.user.id_card}}</a></td>
+          <td><a>{{object.user.first_name}} {{object.user.last_name}}</a></td>
+          <td><a>{{object.user.email}}</a></td>
+          <td><a style="color:tomato" href="{% url 'adm:removeWorker' name=branch.name uid=object.user.id %}">ลบพนักงาน</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+    <button type="submit" class="btn btn-success" name="addworker">เพิ่มพนักงาน</button>
+    </form>
+
+
+{% endblock %}

@@ -1,36 +1,25 @@
 {% extends 'adm/header.html' %}
 
 {% block content %}
-    <form action="" method="post">
-        {% csrf_token %} 
-        <input type="text" id="search" placeholder="Seach ชื่อพนักงาน">
-        <input type="submit" value="ยืนยัน">
-    {% if not data %}
-    <br>
-    <br>
-    <h2 align="center" style="color:tomato">ไม่มีพนักงาน {{search}}</h2>
-    {% else %}
-    <table class="table">
-    <thead>
-        <tr>
-            <th scope="col">ชื่อ-นามสกุล พนักงาน</th>
-            <th scope="col">ตำแหน่ง</th>
-            <th scope="col">id พนักงาน</th>
-        </tr>
-    </thead>
-    <tbody id="table-data">
-        {% for object in data %}
-        <tr class="table-active" id="table">
-            <td><a href="{% url 'adm:eachUser' object.id %}">{{object.first_name}} {{object.last_name}} - {{object.roles}}</a></td>
-            <td><a>{{object.roles}}</a></td>
-            <td><a>{{object.id_card}}</a></td>
-            <td><a style="color:tomato" href="{% url 'adm:deleteUser' object.id %}">ลบพนักงาน</a></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-    </table>
-        <button type="submit" name='register' class="btn btn-success">เพิ่มพนักงาน</button>
+    <form method='POST'>
+        {% csrf_token %}
+        <h1>ข้อมูลพนักงาน</h1></br>
+        <a>Username : <input type="text" name="username" id="username" placeholder="Username" value={{data.username}} required></a></br>
+        <a>First Name : <input type="text" name="first_name" id="first_name" placeholder="Firstname" value={{data.first_name}} required></a></br>
+        <a>Last Name : <input type="text" name="last_name" id="last_name" placeholder="Lastname" value={{data.last_name}} required></a></br>
+        <a>Email : <input type="text" name="email" id="email" placeholder="Email" value={{data.email}} required></a></br>
+        <a>ID พนักงาน : <b>{{data.id_card}}</b></a></br>
+        <a>ตำแหน่ง :         
+            <select class="form-control" id="roles" name="roles">
+                <option value="{{data.roles}}" selected hidden>{{data.roles}}</option>
+                <option value="หัวหน้างาน">หัวหน้างาน</option>
+                <option value="พนักงาน">พนักงาน</option>
+                <option value="ผู้ดูแล">ผู้ดูแล</option>
+            </select>
+        </a></br><br>
+        <button type="submit" name='edit' class="btn btn-secondary">แก้ไขข้อมูล</button>
+        <button type="submit" name='changepassword' class="btn btn-info">เปลี่ยนรหัสผ่าน</button>
+        <button type="submit" name='delete' class="btn btn-danger">ลบข้อมูล</button>
+        <button type="submit" name='cancel' class="btn btn-dark">ยกเลิก</button>
     </form>
-    {% endif %}
-    
 {% endblock %}

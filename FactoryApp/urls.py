@@ -21,14 +21,14 @@ from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('adm/', decorator_include(login_required, 'adm.urls')),
+    path('adm/', decorator_include(login_required, 'adm.urls')),
     # path('manager/', decorator_include(login_required, 'manager.urls')),
-    # path('employee/', decorator_include(login_required, 'employee.urls')),
+    path('employee/', decorator_include(login_required, 'employee.urls')),
 
     # path('api/', include('api.urls')),
 
-    # path('',views.index, name="index"),
-    # path('login/',views.login, name="login"),
-    # path('logout/', views.logout, name="logout"),
-    # path('regis/', views.register, name="register"),
+    path('',views.index, name="index"),
+    path('login/',views.login, name="login"),
+    path('logout/', views.logout, name="logout"),
+    path('regis/', views.register, name="register"),
 ]

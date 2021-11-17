@@ -10,10 +10,10 @@
       <h2 align="center" style="color:tomato">ไม่มีงานในวันนี้</h2>
     {% else %}
     {% for each in data %}
-      <a>ชื่องาน : {{each.plan.work_group.work_group}}</a><br>
+      <a>ชื่องาน : {{each.plan.group_name.group_name}}</a><br>
       <a>เวลาเริ่มงาน : {{each.plan.datetime_start}}      เวลาเข้างานจริง : {% if not each.datetime_checkin%}-{% else %}{{each.datetime_checkin}}{% endif %}</a><br>
       <a>เวลาเลิกงาน : {{each.plan.datetime_end}}      เวลาออกงานจริง : {% if not each.datetime_checkin%}-{% else %}{{each.datetime_checkout}}{% endif %}</a><br>
-      <a>OT จำกัดของวันนี้ : {{each.plan.limit_OT_hour}}     จำนวน OT ที่ได้รับ : {% if not each.datetime_checkin%}-{% else %}{{each.ot_hour}}{% endif %}</a><br>
+      <a>OT จำกัดของวันนี้ : {{each.plan.limit_ot_hour}}     จำนวน OT ที่ได้รับ : {% if not each.datetime_checkin%}-{% else %}{{each.ot_hour}}{% endif %}</a><br>
       <br>
       <br>
     {% endfor %}

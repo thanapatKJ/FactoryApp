@@ -1,0 +1,26 @@
+{% extends 'adm/header.html' %}
+
+{% block content %}
+<h2 align="center" style="color:tomato">เพิ่มพนักงาน</h2>
+<h2 align="center" style="color:tomato">{{branch.name}}</h2>
+    <form method="POST">
+    {% csrf_token %}
+    {% if not free_worker %}
+        <br>
+        <br>
+        <h5 align="center" style="color:tomato">ไม่มีพนักงานว่าง</h5>
+    {% else %}
+    <select name ="เพิ่มพนักงาน" multiple size = 6> 
+        {% for user in free_worker %}
+            <option value ="{{user.id}}">พนักงาน - {{user.first_name}}  {{user.last_name}}  </option>
+        {% endfor %}
+    </select>
+    <br>
+    <br>
+    <button type="submit" class="btn btn-success" name="addWorker">ยืนยัน</button>
+    <button type="submit" class="btn btn-danger" name="cancel">ยกเลิก</button>
+    {% endif %}
+
+</form>
+    
+{% endblock %}

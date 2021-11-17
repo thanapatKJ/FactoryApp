@@ -23,14 +23,14 @@ class Users(AbstractUser):
         ('พนักงาน','พนักงาน'),
     )
     roles = models.CharField(max_length=30,choices=ROLES,null=False)
-    # class Meta:
-    #     ordering = ["roles"]
+    class Meta:
+        ordering = ["roles"]
     def __str__(self): 
         return str(self.first_name) + " " + str(self.last_name) +" - "+str(self.roles)
 
 class WorkBranchs(models.Model):
     branch = models.ForeignKey(Branchs ,on_delete=models.CASCADE)
-    user = models.ForeignKey(Users,on_delete=models.SET_NULL,null=True)
+    user = models.ForeignKey(Users,on_delete=models.CASCADE)
     class Meta:
         ordering= ["branch"]
     def __str__(self):
@@ -39,12 +39,16 @@ class WorkBranchs(models.Model):
 class WorkGroups(models.Model):
     branch = models.ForeignKey(Branchs,on_delete=models.CASCADE)
     group_name = models.CharField(max_length=50,unique=True,)
+    def __str__(self):
+        return str(self.group_name)
 
 class ManageBranchs(models.Model):
     manager = OneToOneField(Users,on_delete=models.CASCADE)
     branch = OneToOneField(Branchs,on_delete=models.CASCADE)
     class Meta:
         ordering = ["branch"]
+    def __str__(self):
+        return str(self.branch)+ " - " +str(self.manager.first_name)+" "+str(self.manager.last_name)
 
 class WorkPlans(models.Model):
     group_name = models.ForeignKey(WorkGroups,on_delete=models.CASCADE)
@@ -52,21 +56,21 @@ class WorkPlans(models.Model):
     datetime_end = models.DateTimeField(null=False,blank=False)
     limit_ot_hour = models.FloatField(default=0.0)
     class Meta:
-        ordering = ["group_name"]
-    # def __str__(self):
-    #     return str(self.work_group.work_group)+": ("+str(self.datetime_start)+") - ("+str(self.datetime_end)+")"
+        ordering = ["datetime_start"]
+    def __str__(self):
+        return str(self.group_name.group_name)+": ("+str(self.datetime_start)+") - ("+str(self.datetime_end)+")"
 
 class UserHistories(models.Model):
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
     plan = models.ForeignKey(WorkPlans,on_delete=models.CASCADE)
     datetime_checkin = models.DateTimeField(null=True,blank=True)
     datetime_checkout = models.DateTimeField(null=True,blank=True)
-    ot_hour = models.FloatField(null=True,blank=True)
+    ot_hour = models.FloatField(default=0.0)
     custom_ot = models.BooleanField(default=False)
-    # class Meta:
-    #     ordering = ["-plan.datetime_start"]
-    # def __str__(self):
-    #     return str(self.user.first_name) +" "+str(self.user.last_name) + " - "+str(self.plan.work_group.work_group)+" "+str(self.plan.datetime)    
+    class Meta:
+        ordering = ["-plan__datetime_start"]
+    def __str__(self):
+        return str(self.user.first_name)+" "+str(self.user.last_name) + " - "+str(self.plan.group_name.group_name)+" ["+str(self.plan.datetime_start)+"  -  "+str(self.plan.datetime_start)+"]"  
 
 class Machines(models.Model):
     branch = models.ForeignKey(Branchs, on_delete=models.SET_NULL,null=True)
