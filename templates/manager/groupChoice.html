@@ -1,0 +1,11 @@
+{% extends 'manager/header.html' %}
+
+{% block content %}
+    <form method='POST'>
+        {% csrf_token %}
+        <h1>โปรดเลือก</h1></br>
+        <button type="submit" name='worker' class="btn btn-info">คน</button>
+        <button type="submit" name='machine' class="btn btn-danger">เครื่องจักร</button>
+        <button type="submit" name='ot-info' class="btn btn-dark">ข้อมูล OT</button>
+    </form>
+{% endblock %}

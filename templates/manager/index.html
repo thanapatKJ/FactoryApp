@@ -3,19 +3,32 @@
 {% block content %}
     <h2 align="center">กลุ่มงานของวันนี้</h2>
     <h4 align="center">{{today.date}}</h4>
+    <br><br>
     {% if not data %}
-      <br>
-      <br>
-      <h2 align="center" style="color:tomato">ไม่มีงานที่ต้องดูแลในวันนี้</h2>
+      <h2 align="center" style="color:tomato">ไม่มีกลุ่มงานที่ต้องดูแลในวันนี้</h2>
     {% else %}
-    {% for each in data %}
-      <a>ชื่องาน : {{each.work_group}}</a><br>
-      <a>เวลาเริ่มงาน : {{each.plan.datetime_start}}      เวลาเลิกงาน : {{each.plan.datetime_end}}</a><br>
-      <a>เวลาเลิกงาน : {{each.plan.datetime_end}}      เวลาออกงานจริง : {% if not each.datetime_checkin%}-{% else %}{{each.datetime_checkout}}{% endif %}</a><br>
-      <a>OT จำกัดของวันนี้ : {{each.plan.limit_OT_hour}}     จำนวน OT ที่ได้รับ : {% if not each.datetime_checkin%}-{% else %}{{each.ot_hour}}{% endif %}</a><br>
-      <br>
-      <br>
-    {% endfor %}
+    <table class="table">
+      <thead>
+          <tr>
+              <th scope="col">ลำดับที่</th>
+              <th scope="col">ชื่อกลุ่มงาน</th>
+              <th scope="col">วันเวลาเข้างาน</th>
+              <th scope="col">วันเวลาออกงาน</th>
+              <th scope="col">จำนวนพนักงาน/จำนวนพนักงานเข้า</th>
+          </tr>
+      </thead>
+      <tbody>
+        {% for object in data %}
+        <tr class="table-active" id="table">
+          <td><a>{{forloop.counter}}</a></td>
+          <td><a href="{% url 'manager:group' gid=object.plan.id %}">{{object.plan.group_name}}</a></td>
+          <td><a>{{object.plan.datetime_start}}</a></td>
+          <td><a>{{object.plan.datetime_end}}</a></td>
+          <td><a>{{object.worker}}/{{object.workerIn}}</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
     {% endif %}
 
 {% endblock %}

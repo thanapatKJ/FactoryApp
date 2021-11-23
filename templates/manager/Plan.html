@@ -1,19 +1,31 @@
 {% extends 'manager/header.html' %}
 
 {% block content %}
-<form action="" method="post">
-  {% csrf_token %} 
-  <input type="month" id="month" name="month" min="{{thismonth}}" value={{selected_date}} required>
-  <input type="submit" value="ยืนยัน">
-</form>
-
-    <h2 align="center">ตารางงาน</h2>
-    {% if not data %}
-      <br>
-      <br>
-      <h2 align="center" style="color:tomato">ไม่มีกลุ่มงานที่ต้องดูแล</h2>
+    <h2 align="center">{{plan.group_name.group_name}}</h2>
+    {% if not list_worker %}
+      <h2 align="center" style="color:tomato">ไม่มีพนักงานในกลุ่มงานนี้</h2>
     {% else %}
-        
+    <table class="table">
+      <thead>
+          <tr>
+              <th scope="col">ลำดับที่</th>
+              <th scope="col">ID</th>
+              <th scope="col">ชื่อ นามสกุลพนักงาน</th>
+              <th scope="col">email</th>
+
+          </tr>
+      </thead>
+      <tbody>
+        {% for object in list_worker %}
+        <tr class="table-active" id="table">
+          <td><a>{{forloop.counter}}</a></td>
+          <td><a>{{object.user.id_card}}</a></td>
+          <td><a>{{object.user.firt_name}}  {{object.user.last_name}}</a></td>
+          <td><a>{{object.user.email}}</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
     {% endif %}
 
 {% endblock %}
