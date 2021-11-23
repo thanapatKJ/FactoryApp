@@ -201,7 +201,7 @@ def changepassword(request,uid):
             user = form.save()
             update_session_auth_hash(request, user)
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('adm:eachUser',uid=uid)
+            return redirect('adm:userInfo',uid=uid)
         else:
             messages.error(request, 'Please correct the error below.')
     else:
