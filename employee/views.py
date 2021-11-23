@@ -22,8 +22,8 @@ def index(request):
         })
 
 def info(request):
-    branch = WorkBranchs.objects.get(user=request.user)
-    # print(branch.name)
+    branch = WorkBranchs.objects.filter(user=request.user).first()
+    print(branch)
     return render(request, 'employee/info.html',{
         'branch':branch
     })

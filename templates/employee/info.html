@@ -8,6 +8,10 @@
     <a>Email : <b>{{user.email}}</b></a></br>
     <a>ID พนักงาน : <b>{{user.id_card}}</b></a></br>
     <a>ตำแหน่ง : <b>{{user.roles}}</b></a></br></br>
-    <a>แผนก : <b>{{branch.branch.name}}</b></a></br>
+    {% if not branch%}
+        <a>แผนก : <b>ไม่พบแผนกที่สังกัด</b></a></br>
 
+    {% else %}
+        <a>แผนก : <b>{{branch.branch.name}}</b></a></br>
+    {% endif %}
 {% endblock %}
