@@ -8,26 +8,23 @@
     <br>
     <h2 align="center" style="color:tomato">ไม่มีแผนกงาน</h2>
     {% else %}
-    <table class="table">
-      <thead>
-          <tr>
-              <th scope="col">ลำดับที่</th>
-              <th scope="col">ชื่อแผนก</th>
-          </tr>
-      </thead>
-      <tbody id="table-data">
-        {% for object in data %}
-        <tr class="table-active" id="table">
-          <td><a>{{forloop.counter}}</a></td>
-          <td><a href="{% url 'adm:branch' name=object.name %}">{{object.name}}</a></td>
-          <td><a style="color:tomato" >ลบแผนก</a></td>
-
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class='table-responsive'>
+    <div id='table-work-group' class='table col'>
+      <div class="row">
+          <div class="col-3 col-lg-1 col-sm-2 table-header text-center d-flex"><div class="m-auto">ลำดับที่</div></div>
+          <div class="col table-header d-flex"><div class="my-auto">ชื่อแผนก</div></div>
+          <div class="col-3 col-lg-1 col-sm-2 table-header text-center"></div>
+      </div>
+          {% for object in data %}
+          <div class="row" id="table-data">
+            <div class='col-3 col-lg-1 col-sm-2 table-body text-center d-flex'><a class="m-auto">{{forloop.counter}}</a></div>
+            <div class='col table-body d-flex'><a class="my-auto" href="{% url 'adm:branch' name=object.name %}">{{object.name}}</a></div>
+            <div class='col-3 col-lg-1 col-sm-2 table-body text-center d-flex'><a class='del-btn m-auto' href="{% url 'adm:deleteBranch' name=object.name %}"><i class="fas fa-trash"></i></a></div>
+          </div>
+          {% endfor %}
+    </div>
     {% endif %}
   <button type="submit" name='addBranch' class="btn btn-success">เพิ่มแผนกใหม่</button>
   </form>
-    
+
 {% endblock %}

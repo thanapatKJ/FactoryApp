@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
-from adm.forms import WorkGroupPlan,UserForm
+from adm.forms import WorkGroupPlan,UserForm, addBranchForm
 from database.models import Branchs, ManageBranchs, UserHistories, Users, WorkBranchs, WorkGroups
 from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.contrib.auth import update_session_auth_hash
@@ -9,9 +9,8 @@ from django.contrib import messages
 
 # ---------------------------------------- กลุ่มงาน -----------
 def index(request):
-    # if 'addBranch' in request.POST:
-        # pass
-        # return redirect('adm:addWorkGroup')
+    if 'addBranch' in request.POST:
+        return redirect('adm:addBranch')
     data = Branchs.objects.all()
     return render(request, 'adm/index.html',{
         'data':data})
@@ -44,6 +43,19 @@ def branch(request,name):
         'group':group,
         'worker':worker,
     })
+
+def addBranch(request):
+    form = addBranchForm()
+    if request.method== 'POST':
+        form = addBranchForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('adm:index')
+    return render(request,'adm/addBranch.html',{'form':form})
+
+def deleteBranch(request,name):
+    Branchs.objects.get(name=name).delete()
+    return redirect('adm:index')
 
 def addmanager(request,name):
     branch = Branchs.objects.get(name=name)

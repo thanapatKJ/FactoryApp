@@ -3,7 +3,7 @@
 {% block content %}
     <form method='POST'>
     {% csrf_token %}
-    <h2 align="center" style="color:tomato">{{branch.name}}</h2>
+    <h2 align="center" style="color:#555555">{{branch.name}}</h2>
     {% if not manager %}
     <h5 align="center" style="color:tomato">ไม่พบหัวหน้างาน</h5>
     <button type="submit" class="btn btn-success" name="addmanager">เพิ่มหัวหน้างาน</button>
@@ -53,7 +53,7 @@
       </tbody>
     </table>
     {% endif %}
-    <button type="submit" class="btn btn-success" name="addgroup">เพิ่มกลุ่ม</button>   
+    <button type="submit" class="btn btn-success" name="addgroup">เพิ่มกลุ่ม</button>
     <br>
     <br>
     {% if not worker %}

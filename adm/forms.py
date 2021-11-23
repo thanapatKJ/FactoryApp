@@ -1,6 +1,6 @@
 
 from django.forms.models import ModelForm
-from database.models import WorkGroups
+from database.models import Branchs, WorkGroups
 from django.contrib.auth.forms import UserCreationForm
 from database.models import Users
 
@@ -13,6 +13,11 @@ class WorkGroupPlan(ModelForm):
     class Meta:
         model=WorkGroups
         # fields= ('manager',)
+        fields= '__all__'
+
+class addBranchForm(ModelForm):
+    class Meta:
+        model=Branchs
         fields= '__all__'
 
 # class AddManagerForm(ModelForm):
