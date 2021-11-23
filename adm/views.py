@@ -125,10 +125,19 @@ def removeWorker(request,name,uid):
 # ---------------------------------------- ผู้ใช้งาน -----------
 def allUser(request):
     data = Users.objects.all().exclude(roles="ผู้ดูแล")
+    all_manager = Users.objects.filter(roles="หัวหน้างาน").count()
+    all_worker = Users.objects.filter(roles="พนักงาน").count()
+    all_admin = Users.objects.filter(roles="ผู้ดูแล").count()
+    all = int(all_manager)+int(all_worker)+int(all_admin)
     if 'register' in request.POST:
         return redirect('adm:register')
     return render(request,'adm/allUser.html',{
-        'data':data
+        'data':data,
+        'all_manager':all_manager,
+        'all_worker':all_worker,
+        'all_admin':all_admin,
+        'all':all,
+
     })
     
 def register(request):
