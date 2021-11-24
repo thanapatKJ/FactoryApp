@@ -1,0 +1,69 @@
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+
+.btn-group .button1 {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  float: left;
+}
+
+.btn-group .button1:hover {
+  background-color: #3e8e41;
+}
+
+.nav-link-green {
+  color: #fefefe !important;
+}
+
+.nav-link-green:hover, .nav-link-green:focus {
+  color: #0a2d04 !important;
+}
+
+.table2 {
+  border: #0a2d04 2px solid;
+  background: white;
+}
+
+.table2 .row:first-child {
+  padding-top: .1rem;
+}
+.table2 .row {
+  padding-bottom: .1rem;
+  padding-left: .1rem;
+  padding-right: .1rem;
+  height: 40px;
+}
+.table2 .table-header {
+  background: white;
+}
+
+.table2 .table-body {
+  background: #90ee90c2;
+}
+
+.del-btn {
+  color: #555555;
+}
+
+.del-btn:hover, .del-btn:focus {
+  color: white;
+}
