@@ -15,6 +15,9 @@ urlpatterns = [
     path('branch/<str:name>/deleteGroup/<str:gid>',views.deleteGroup, name="deleteGroup"),
     path('branch/<str:name>/addworker/',views.addworker, name="addworker"),
     path('branch/<str:name>/removeWorker/<str:uid>',views.removeWorker, name="removeWorker"),
+    path('branch-new/',views.addBranch, name="addBranch"),
+    path('branch/<str:name>/deleteBranch',views.deleteBranch, name="deleteBranch"),
+
     # ผู้ใช้งาน
     path('user/',views.allUser, name="allUser"),
     path('user/<str:uid>/',views.userInfo, name="userInfo"),

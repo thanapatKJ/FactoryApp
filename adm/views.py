@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
-from adm.forms import WorkGroupPlan,UserForm
+from adm.forms import WorkGroupPlan,UserForm, addBranchForm
 from database.models import Branchs, ManageBranchs, UserHistories, Users, WorkBranchs, WorkGroups
 from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.contrib.auth import update_session_auth_hash
@@ -9,9 +9,8 @@ from django.contrib import messages
 
 # ---------------------------------------- กลุ่มงาน -----------
 def index(request):
-    # if 'addBranch' in request.POST:
-        # pass
-        # return redirect('adm:addWorkGroup')
+    if 'addBranch' in request.POST:
+        return redirect('adm:addBranch')
     data = Branchs.objects.all()
     return render(request, 'adm/index.html',{
         'data':data})
@@ -44,6 +43,19 @@ def branch(request,name):
         'group':group,
         'worker':worker,
     })
+
+def addBranch(request):
+    form = addBranchForm()
+    if request.method== 'POST':
+        form = addBranchForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('adm:index')
+    return render(request,'adm/addBranch.html',{'form':form})
+
+def deleteBranch(request,name):
+    Branchs.objects.get(name=name).delete()
+    return redirect('adm:index')
 
 def addmanager(request,name):
     branch = Branchs.objects.get(name=name)
@@ -125,10 +137,19 @@ def removeWorker(request,name,uid):
 # ---------------------------------------- ผู้ใช้งาน -----------
 def allUser(request):
     data = Users.objects.all().exclude(roles="ผู้ดูแล")
+    all_manager = Users.objects.filter(roles="หัวหน้างาน").count()
+    all_worker = Users.objects.filter(roles="พนักงาน").count()
+    all_admin = Users.objects.filter(roles="ผู้ดูแล").count()
+    all = int(all_manager)+int(all_worker)+int(all_admin)
     if 'register' in request.POST:
         return redirect('adm:register')
     return render(request,'adm/allUser.html',{
-        'data':data
+        'data':data,
+        'all_manager':all_manager,
+        'all_worker':all_worker,
+        'all_admin':all_admin,
+        'all':all,
+
     })
     
 def register(request):
@@ -180,7 +201,7 @@ def changepassword(request,uid):
             user = form.save()
             update_session_auth_hash(request, user)
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('adm:eachUser',uid=uid)
+            return redirect('adm:userInfo',uid=uid)
         else:
             messages.error(request, 'Please correct the error below.')
     else:
@@ -196,7 +217,7 @@ def selfChangePass(request):
             user = form.save()
             update_session_auth_hash(request, user)
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('adm:userInfo')
+            return redirect('adm:index')
         else:
             messages.error(request, 'Please correct the error below.')
     else:

@@ -19,7 +19,7 @@
           <div class="row" id="table-data">
             <div class='col-3 col-lg-1 col-sm-2 table-body text-center d-flex'><a class="m-auto">{{forloop.counter}}</a></div>
             <div class='col table-body d-flex'><a class="my-auto" href="{% url 'adm:branch' name=object.name %}">{{object.name}}</a></div>
-            <div class='col-3 col-lg-1 col-sm-2 table-body text-center d-flex'><a class='del-btn m-auto'><i class="fas fa-trash"></i></a></div>
+            <div class='col-3 col-lg-1 col-sm-2 table-body text-center d-flex'><a class='del-btn m-auto' href="{% url 'adm:deleteBranch' name=object.name %}"><i class="fas fa-trash"></i></a></div>
           </div>
           {% endfor %}
     </div>

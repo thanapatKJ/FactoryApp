@@ -13,6 +13,12 @@
     <br>
     <h2 align="center" style="color:tomato">ไม่มีพนักงาน</h2>
     {% else %}
+
+    <a>ผู้ดูแลทั้งหมด : {{all_admin}} คน</a><br>
+    <a>หัวหน้างานทั้งหมด : {{all_manager}} คน</a><br>
+    <a>พนักงานทั้งหมด : {{all_worker}} คน</a><br>
+    <a>รวม : {{all}} คน</a><br>
+
     <div class='table-responsive'>
     <div id='table-work-group' class='table2 col'>
       <div class="row">

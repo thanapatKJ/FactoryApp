@@ -1,0 +1,47 @@
+{% extends 'manager/header.html' %}
+{% block content %}
+<h2 align="center">แผนงานวันที่ {{date}}</h2>
+
+<form action="" method="post">
+    {% csrf_token %} 
+    <input type="date" name="date" id="date" value={{date}}>
+    <select name ="เลือกกลุ่มงาน" multiple size = 3>
+        {% for group in all_group %}
+            <option value ="{{group.group_name}}">{{group.group_name}}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="ยืนยัน"><br><br>
+    <button type="submit" name='addPlan' class="btn btn-info">เพิ่มตารางงาน</button>
+
+    <br>
+    <br>
+{% if not data %}
+<h2 align="center" style="color:tomato">ไม่มีแผนงานในเดือนที่เลือก {{thismonth}}</h2>
+{% else %}
+{% for object in data %}
+<br><br>
+
+    <h4 align="center">{{object.group_name}}</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">วันเวลาที่เข้างาน</th>
+                <th scope="col">ชื่อกลุ่มงาน</th>
+                <th scope="col">จำนวน OT สูงสุด</th>
+                <th scope="col">จำนวนพนักงานที่วางไว้</th>
+            </tr>
+        </thead>
+        <tbody id="table-data">
+        <tr class="table-active" id="table">
+            <td><a href="{% url 'manager:plan' pid=object.group.id %}">{{object.group.datetime_start}}</a></td>
+            <td><a>{{object.group.group_name}}</a></td>
+            <td><a>{{object.group.limit_ot_hour}}</a></td>
+            <td><a>{{object.worker}}</a></td>
+            <td><a href="{% url 'manager:deletePlan' pid=object.group.id %}"style="color:tomato">ลบข้อมูล</a></td>
+        </tr>
+        </tbody>
+    </table>
+{% endfor %}
+{% endif %}
+</form>
+{% endblock %}

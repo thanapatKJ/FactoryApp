@@ -12,6 +12,8 @@ class Branchs(models.Model):
 
     class Meta:
         ordering=["name"]
+        verbose_name = "Branch"
+
     def __str__(self):
         return str(self.name)
     
@@ -25,6 +27,8 @@ class Users(AbstractUser):
     roles = models.CharField(max_length=30,choices=ROLES,null=False)
     class Meta:
         ordering = ["roles"]
+        verbose_name = "User"
+
     def __str__(self): 
         return str(self.first_name) + " " + str(self.last_name) +" - "+str(self.roles)
 
@@ -33,12 +37,18 @@ class WorkBranchs(models.Model):
     user = models.ForeignKey(Users,on_delete=models.CASCADE)
     class Meta:
         ordering= ["branch"]
+        verbose_name = "WorkBranch"
+
     def __str__(self):
         return str(self.branch.name)+ " - "+str(self.user.first_name)+" "+str(self.user.last_name)
 
 class WorkGroups(models.Model):
     branch = models.ForeignKey(Branchs,on_delete=models.CASCADE)
     group_name = models.CharField(max_length=50,unique=True,)
+
+    class Meta:
+        verbose_name = "WorkGroup"
+
     def __str__(self):
         return str(self.group_name)
 
@@ -47,6 +57,8 @@ class ManageBranchs(models.Model):
     branch = OneToOneField(Branchs,on_delete=models.CASCADE)
     class Meta:
         ordering = ["branch"]
+        verbose_name = "ManageBranch"
+
     def __str__(self):
         return str(self.branch)+ " - " +str(self.manager.first_name)+" "+str(self.manager.last_name)
 
@@ -56,6 +68,7 @@ class WorkPlans(models.Model):
     datetime_end = models.DateTimeField(null=False,blank=False)
     limit_ot_hour = models.FloatField(default=0.0)
     class Meta:
+        verbose_name = "WorkPlan"
         ordering = ["datetime_start"]
     def __str__(self):
         return str(self.group_name.group_name)+": ("+str(self.datetime_start)+") - ("+str(self.datetime_end)+")"
@@ -69,6 +82,8 @@ class UserHistories(models.Model):
     custom_ot = models.BooleanField(default=False)
     class Meta:
         ordering = ["-plan__datetime_start"]
+        verbose_name = "UserHistorie"
+
     def __str__(self):
         return str(self.user.first_name)+" "+str(self.user.last_name) + " - "+str(self.plan.group_name.group_name)+" ["+str(self.plan.datetime_start)+"  -  "+str(self.plan.datetime_start)+"]"  
 
@@ -81,6 +96,8 @@ class Machines(models.Model):
         ('เสียหาย','เสียหาย'),
     )
     status = models.CharField(max_length=30,choices=choice,null=False)
+    class Meta:
+        verbose_name = "Machine"
 
 # class MachineUsages(models.Model):
 #     user = ForeignKey(Users,on_delete=models.CASCADE)

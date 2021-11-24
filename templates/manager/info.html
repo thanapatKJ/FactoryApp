@@ -1,4 +1,4 @@
-{% extends 'employee/header.html' %}
+{% extends 'manager/header.html' %}
 
 {% block content %}
     <h1>ข้อมูลพนักงาน</h1></br>
@@ -10,7 +10,6 @@
     <a>ตำแหน่ง : <b>{{user.roles}}</b></a></br></br>
     {% if not branch%}
         <a>แผนก : <b>ไม่พบแผนกที่สังกัด</b></a></br>
-
     {% else %}
         <a>แผนก : <b>{{branch.branch.name}}</b></a></br>
     {% endif %}
