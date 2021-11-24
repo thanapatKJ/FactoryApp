@@ -1,0 +1,17 @@
+{% extends 'manager/header.html' %}
+
+{% block content %}
+<form method="post">
+{% csrf_token %}
+    <h2 align="center">กลุ่มงาน {{plan.group_name.group_name}}</h2>
+    <h4 align="center">{{today}}</h4>
+    <br><br>
+    <h4>Check Out</h4><br>
+    <a style="color:tomato">{{message}}</a><br>
+    <a>ID พนักงาน : <input type=text name='id_card' id='id_card' value={{id_card}}></a><br>
+    <br><br>
+    <button type="submit" name='ยืนยัน' class="btn btn-info">ยืนยัน</button>
+    <button type="submit" name='ยกเลิก' class="btn btn-info">ย้อนกลับ</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'manager/header.html' %}
+
+{% block content %}
+<form method="post">
+{% csrf_token %}
+    <h2 align="center">กลุ่มงาน {{group_name}}</h2>
+    <h4 align="center">{{today}}</h4>
+    <br><br>
+    จำนวนพนักงานทั้งหมด : {{worker}}<br>
+
+    จำนวนพนักงานที่ Check In : {{workerIn}}<br>
+    {{workerIn}} / {{worker}} <br>
+    จำนวน OT สูงสุดของวัน : {{plan.limit_ot_hour}}
+    <table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ลำดับที่</th>
+            <th scope="col">ชื่อ นามสกุลพนักงาน</th>
+            <th scope="col">วันเวลาเข้างาน</th>
+            <th scope="col">วันเวลาออกงาน</th>
+            <th scope="col">จำนวน OT ที่ได้รับ</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for object in data %}
+        <tr class="table-active" id="table">
+            <td><a>{{forloop.counter}}</a></td>
+            <td><a></a>{{object.user.first_name}} {{object.user.last_name}}</td>
+            <td><a>{% if object.datetime_checkin %}{{object.datetime_checkin}}{%else%}-{%endif%}</a></td>
+            <td><a>{% if object.datetime_checkout %}{{object.datetime_checkout}}{%else%}-{%endif%}</a></td>
+            <td><a>{{object.ot_hour}}</a></td>
+            <td><a href="{% url 'manager:editOT' pid=object.plan.id uid=object.user.id %}">แก้ไข OT</a></td>
+            <td><a href="{% url 'manager:removeWorker' pid=object.plan.id uid=object.user.id %}">นำพนักงานออก</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    <button type="submit" name='เพิ่มพนักงาน' class="btn btn-info">เพิ่มพนักงาน</button>
+    <button type="submit" name='checkin' class="btn btn-info">Check In</button>
+    <button type="submit" name='checkout' class="btn btn-info">Check Out</button>
+
+
+</form>
+
+{% endblock %}
