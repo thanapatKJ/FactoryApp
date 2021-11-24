@@ -1,0 +1,18 @@
+{% extends 'manager/header.html' %}
+
+{% block content %}
+<h2 align="center" style="color:tomato">เพิ่มกลุ่ม</h2>
+<h2 align="center" style="color:tomato">แผนก :{{branch.name}}</h2>
+    <form method="POST">
+    {% csrf_token %}
+    <br>
+    <br>
+    <div class="form-group w-50">
+        <label for="username">ชื่อกลุ่ม:</label>
+        <input type="text" class="form-control" id="group_name" name="group_name">
+    </div>
+    <button type="submit" class="btn btn-success" name="submit">ยืนยัน</button>
+    <button type="submit" class="btn btn-danger" name="cancel">ยกเลิก</button>
+</form>
+    
+{% endblock %}

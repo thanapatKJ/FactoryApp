@@ -51,9 +51,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active"></li><a class="nav-link" href="{% url 'manager:index' %}">กลุ่มงาน <span
+        <li class="nav-item active"></li><a class="nav-link" href="{% url 'manager:index' %}">กลุ่มงานวันนี้ <span
             class="sr-only">(current)</span></a></li>
         <li class="nav-item active"></li><a class="nav-link" href="{% url 'manager:Allplan' %}">แผนงาน <span
+            class="sr-only">(current)</span></a></li>
+        <li class="nav-item active"></li><a class="nav-link" href="{% url 'manager:group' %}">กลุ่มงาน <span
             class="sr-only">(current)</span></a></li>
       </ul>
       <a class="nav-link" style='color:aliceblue' href="{% url 'manager:info' %}">{{user.first_name}} {{user.last_name}}
