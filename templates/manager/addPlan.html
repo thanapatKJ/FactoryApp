@@ -1,0 +1,19 @@
+{% extends 'manager/header.html' %}
+{% block content %}
+<h2 align="center">เพิ่มตารางงาน</h2>
+
+<form action="" method="post">
+    {% csrf_token %} 
+    <a>กลุ่มงาน</a><br>
+    <select name ="เลือกกลุ่มงาน" required size = 3>
+        {% for group in all_group %}
+            <option value ="{{group.group_name}}">{{group.group_name}}</option>
+        {% endfor %}
+    </select><br>
+    <a>เวลาเริ่มงาน </a><input type="datetime-local" name="datetime_start" id="datetime_start" required><br>
+    <a>เวลาเลิกงาน </a><input type="datetime-local" name="datetime_end" id="datetime_end" required><br>
+    <a>จำนวนชั่วโมง OT สูงสุด </a>
+    <input type=number name='limit_ot' id='limit_ot' step=0.1 required min=0.0 max=24.0 value=0.0><br/>
+<button type="submit" name='ยืนยันเพิ่มงาน' class="btn btn-info">ยืนยันเพิ่มงาน</button>
+</form>
+{% endblock %}

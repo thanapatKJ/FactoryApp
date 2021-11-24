@@ -10,9 +10,10 @@ urlpatterns = [
     # แผนงาน
     path('plan/', views.Allplan, name="Allplan"),
     path('plan/<str:pid>/deletePlan', views.deletePlan, name="deletePlan"),
+    path('plan/addPlan', views.addPlan, name="addPlan"),
+    path('plan/<str:pid>/deletePlan', views.deletePlan, name="deletePlan"),
     path('plan/<str:pid>/', views.plan, name="plan"),
     path('plan/<str:hid>/removeUser/<str:uid>', views.removeUser, name="removeUser"),
-
     # ข้อมูล
     path('info/', views.info, name="info"),
 
