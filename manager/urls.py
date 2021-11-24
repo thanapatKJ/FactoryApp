@@ -11,10 +11,15 @@ urlpatterns = [
     path('plan/', views.Allplan, name="Allplan"),
     path('plan/<str:pid>/deletePlan', views.deletePlan, name="deletePlan"),
     path('plan/addPlan', views.addPlan, name="addPlan"),
-    path('plan/<str:pid>/deletePlan', views.deletePlan, name="deletePlan"),
     path('plan/<str:pid>/', views.plan, name="plan"),
-    path('plan/<str:hid>/removeUser/<str:uid>', views.removeUser, name="removeUser"),
+    path('plan/<str:pid>/removeUser/<str:uid>', views.removeUser, name="removeUser"),
+    path('plan/<str:pid>/addUser', views.addUser, name="addUser"),
     # ข้อมูล
     path('info/', views.info, name="info"),
+    # เพิ่มกลุ่มงาน
+    path('allGroup/', views.allGroup, name="allGroup"),
+    path('add/', views.add, name="add"),
+    path('deleteGroup/<str:gid>/', views.deleteGroup, name="deleteGroup"),
+
 
 ]

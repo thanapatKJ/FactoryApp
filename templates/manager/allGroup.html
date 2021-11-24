@@ -1,0 +1,31 @@
+{% extends 'manager/header.html' %}
+{% block content %}
+<form method="post">
+{% csrf_token %}
+<h2 align="center">กลุ่มงานในแผนก {{branch}}</h2>
+{% if not data %}
+<h2 align="center" style="color:tomato">ไม่มีกลุ่มงานในแผนกนี้</h2>
+{% else %}
+<br><br>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ลำดับที่</th>
+                <th scope="col">ชื่อกลุ่มงาน</th>
+            </tr>
+        </thead>
+        {% for object in data %}
+        <tbody id="table-data">
+        <tr class="table-active" id="table">
+            <td><a>{{forloop.counter}}</a></td>
+            <td><a>{{object.group_name}}</a></td>
+            <td><a href="{% url 'manager:deleteGroup' gid=object.id %}"style="color:tomato">ลบข้อมูล</a></td>
+        </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+{% endif %}
+<button type="submit" name='addPlan' class="btn btn-info">เพิ่มกลุ่มงาน</button>
+</form>
+{% endblock %}
