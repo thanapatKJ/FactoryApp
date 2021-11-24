@@ -14,7 +14,7 @@
               <th scope="col">ชื่อกลุ่มงาน</th>
               <th scope="col">วันเวลาเข้างาน</th>
               <th scope="col">วันเวลาออกงาน</th>
-              <th scope="col">จำนวนพนักงาน/จำนวนพนักงานเข้า</th>
+              <th scope="col">จำนวนพนักงานเข้า/จำนวนพนักงาน</th>
           </tr>
       </thead>
       <tbody>
@@ -24,7 +24,7 @@
           <td><a href="{% url 'manager:group' gid=object.plan.id %}">{{object.plan.group_name}}</a></td>
           <td><a>{{object.plan.datetime_start}}</a></td>
           <td><a>{{object.plan.datetime_end}}</a></td>
-          <td><a>{{object.worker}}/{{object.workerIn}}</a></td>
+          <td><a>{{object.workerIn}}/{{object.worker}}</a></td>
         </tr>
         {% endfor %}
       </tbody>

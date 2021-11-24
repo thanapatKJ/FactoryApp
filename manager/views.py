@@ -5,9 +5,12 @@ from database.models import Branchs, ManageBranchs, UserHistories, WorkBranchs, 
 import json
 from .forms import WorkPlanForm
 
+
+# ------------------------------------------------------------------------------------------------------------
+# กลุ่มงาน
 def index(request):
     today = datetime.now()
-    branch = ManageBranchs.objects.get(manager=request.user).branch
+    branch = ManageBranchs.objects.filter(manager=request.user).first().branch
     all_groups = WorkGroups.objects.filter(branch=branch)
     today_groups = []
     for group in all_groups:
@@ -17,7 +20,6 @@ def index(request):
             worker = UserHistories.objects.filter(plan=plan).count()
             workerIn = UserHistories.objects.filter(plan=plan).exclude(datetime_checkin__isnull=True).count()
             today_groups.append({'plan':plan,'worker':worker,'workerIn':workerIn})
-    print(today_groups)
     return render(request,'manager/index.html',{
         'today':today,
         'data':today_groups,
@@ -145,14 +147,14 @@ def add(request):
     branch = ManageBranchs.objects.filter(manager=request.user).first().branch
     if 'submit' in request.POST:
         WorkGroups.objects.create(branch=branch,group_name=request.POST['group_name'])
-        return redirect('manager:group')
+        return redirect('manager:allGroup')
     elif 'cancel' in request.POST:
-        return redirect('manager:group')
+        return redirect('manager:allGroup')
     return render(request,'manager/add.html',{
         'branch':branch
     })
 
-def group(request):
+def allGroup(request):
     branch = ManageBranchs.objects.filter(manager=request.user).first().branch
     data = WorkGroups.objects.filter(branch=branch)
     if 'addPlan' in request.POST:
@@ -164,4 +166,4 @@ def group(request):
 
 def deleteGroup(request,gid):
     WorkGroups.objects.get(id=gid).delete()
-    return redirect('manager:group')
+    return redirect('manager:allGroup')

@@ -17,7 +17,7 @@ urlpatterns = [
     # ข้อมูล
     path('info/', views.info, name="info"),
     # เพิ่มกลุ่มงาน
-    path('group/', views.group, name="group"),
+    path('allGroup/', views.allGroup, name="allGroup"),
     path('add/', views.add, name="add"),
     path('deleteGroup/<str:gid>/', views.deleteGroup, name="deleteGroup"),
 
