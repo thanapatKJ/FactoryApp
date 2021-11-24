@@ -4,30 +4,36 @@
     <form method='POST'>
     {% csrf_token %}
     <h2 align="center" style="color:#555555">{{branch.name}}</h2>
+    <br>
+    <br>
     {% if not manager %}
     <h5 align="center" style="color:tomato">ไม่พบหัวหน้างาน</h5>
-    <button type="submit" class="btn btn-success" name="addmanager">เพิ่มหัวหน้างาน</button>
+    <br>
+    <div class="row">
+        <div class="mx-auto">
+            <button type="submit" class="btn btn-success" name="addmanager">เพิ่มหัวหน้างาน</button>
+        </div>
+    </div>
     {% else %}
     <h5 align="center" style="color:tomato">หัวหน้างาน</h5>
-    <table class="table">
-      <thead>
-          <tr>
-              <th scope="col">id</th>
-              <th scope="col">ชื่อ นามสกุล</th>
-              <th scope="col">ตำแหน่ง</th>
-              <th scope="col">email</th>
-          </tr>
-      </thead>
-      <tbody id="table-data">
-        <tr class="table-active" id="table">
-          <td><a>{{manager.id_card}}</a></td>
-          <td><a>{{manager.first_name}} {{manager.last_name}}</a></td>
-          <td><a>{{manager.roles}}</a></td>
-          <td><a>{{manager.email}}</a></td>
-          <td><a style="color:tomato" href="{% url 'adm:removeManager' name=branch.name mid=manager.id %}">ลบหัวหน้างาน</a></td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class='table-responsive'>
+    <div id='table-work-group' class='table2 col'>
+      <div class="row">
+          <div class="col-2 table-header text-center d-flex"><div class="my-auto">id</div></div>
+          <div class="col table-header text-center d-flex"><div class="my-auto">ชื่อ-นามสกุล</div></div>
+          <div class="col-2 table-header text-center d-flex"><div class="my-auto">ตำแหน่ง</div></div>
+          <div class="col-3 table-header text-center d-flex"><div class="my-auto">E-mail</div></div>
+          <div class="col-1 table-header text-center"></div>
+      </div>
+          <div class="row" id="table-data">
+            <div class='col-2 table-body text-center d-flex'><a class="my-auto">{{manager.id_card}}</a></div>
+            <div class='col table-body text-center d-flex'><a class="my-auto">{{manager.first_name}} {{manager.last_name}}</a></div>
+            <div class='col-2 table-body text-center d-flex'><a class="my-auto">{{manager.roles}}</a></div>
+            <div class='col-3 table-body text-center d-flex'><a class="my-auto">{{manager.email}}</a></div>
+            <div class='col-1 table-body text-center d-flex'><a class='del-btn m-auto' href="{% url 'adm:removeManager' name=branch.name mid=manager.id %}"><i class="fas fa-trash"></i></a></div>
+          </div>
+    </div>
     {% endif %}
     <br>
     <br>
@@ -35,53 +41,60 @@
     <h5 align="center" style="color:tomato">ไม่มีกลุ่ม</h5>
     {% else %}
     <h5 align="center" style="color:tomato">กลุ่ม</h5>
-    <table class="table">
-      <thead>
-          <tr>
-              <th scope="col">ลำดับที่</th>
-              <th scope="col">ชื่อกลุ่ม</th>
-          </tr>
-      </thead>
-      <tbody id="table-data">
-        {% for object in group %}
-        <tr class="table-active" id="table">
-          <td><a>{{forloop.counter}}</a></td>
-          <td><a>{{object.group_name}}</a></td>
-          <td><a style="color:tomato" href="{% url 'adm:deleteGroup' name=branch.name gid=object.id %}">ลบกลุ่ม</a></td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+
+    <div id='table-work-group' class='table2 col'>
+      <div class="row">
+          <div class="col-4 table-header d-flex"><div class="my-auto">ลำดับที่</div></div>
+          <div class="col table-header d-flex"><div class="my-auto">ชื่อกลุ่ม</div></div>
+          <div class="col-1 table-header text-center"></div>
+      </div>
+          {% for object in group %}
+          <div class="row" id="table-data">
+              <div class='col-4 table-body text-center d-flex'><a class="my-auto">{{forloop.counter}}</a></div>
+              <div class='col table-body d-flex'><a class="my-auto">{{object.group_name}}</a></div>
+              <div class='col-1 table-body text-center d-flex'><a class='del-btn m-auto' href="{% url 'adm:deleteGroup' name=branch.name gid=object.id %}"><i class="fas fa-trash"></i></a></div>
+          </div>
+          {% endfor %}
+    </div>
     {% endif %}
-    <button type="submit" class="btn btn-success" name="addgroup">เพิ่มกลุ่ม</button>
+    <br>
+    <div class="row">
+        <div class="mx-auto">
+            <button type="submit" class="btn btn-success" name="addgroup">เพิ่มกลุ่ม</button>
+        </div>
+    </div>
     <br>
     <br>
     {% if not worker %}
     <h5 align="center" style="color:tomato">ไม่มีพนักงาน</h5>
     {% else %}
     <h5 align="center" style="color:tomato">พนักงาน</h5>
-    <table class="table">
-      <thead>
-          <tr>
-            <th scope="col">id</th>
-            <th scope="col">ชื่อ นามสกุล</th>
-            <th scope="col">email</th>
-          </tr>
-      </thead>
-      <tbody id="table-data">
-        {% for object in worker %}
-        <tr class="table-active" id="table">
-          <td><a>{{object.user.id_card}}</a></td>
-          <td><a>{{object.user.first_name}} {{object.user.last_name}}</a></td>
-          <td><a>{{object.user.email}}</a></td>
-          <td><a style="color:tomato" href="{% url 'adm:removeWorker' name=branch.name uid=object.user.id %}">ลบพนักงาน</a></td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+
+    <div id='table-work-group' class='table2 col'>
+      <div class="row">
+          <div class="col-2 table-header d-flex"><div class="my-auto">id</div></div>
+          <div class="col table-header d-flex"><div class="my-auto">ชื่อ-นามสกุล</div></div>
+          <div class="col-4 table-header d-flex"><div class="my-auto">E-mail</div></div>
+          <div class="col-1 table-header text-center"></div>
+      </div>
+          {% for object in worker %}
+          <div class="row" id="table-data">
+              <div class='col-2 table-body text-center d-flex'><a class="my-auto">{{object.user.id_card}}</a></div>
+              <div class='col table-body d-flex'><a class="my-auto">{{object.user.first_name}} {{object.user.last_name}}</a></div>
+              <div class='col-4 table-body d-flex'><a class="my-auto">{{object.user.email}}</a></div>
+              <div class='col-1 table-body text-center d-flex'><a class='del-btn m-auto' href="{% url 'adm:removeWorker' name=branch.name uid=object.user.id %}"><i class="fas fa-trash"></i></a></div>
+          </div>
+          {% endfor %}
+      </div>
     {% endif %}
-    <button type="submit" class="btn btn-success" name="addworker">เพิ่มพนักงาน</button>
+    <br>
+    <div class="row">
+        <div class="mx-auto">
+            <button type="submit" class="btn btn-success" name="addworker">เพิ่มพนักงาน</button>
+        </div>
+    </div>
+    
+    <br>
+    </div>
     </form>
-
-
 {% endblock %}

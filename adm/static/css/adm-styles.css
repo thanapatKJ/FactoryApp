@@ -56,11 +56,33 @@
 }
 
 .table .table-body {
-  background: lightgreen;
+  background: #90ee90c2;
 }
 
 .table .table-header:nth-child(n+2), .table .table-body:nth-child(n+2) {
   margin-left: .1rem
+}
+
+.table2 {
+  border: #0a2d04 2px solid;
+  background: white;
+}
+
+.table2 .row:first-child {
+  padding-top: .1rem;
+}
+.table2 .row {
+  padding-bottom: .1rem;
+  padding-left: .1rem;
+  padding-right: .1rem;
+  height: 40px;
+}
+.table2 .table-header {
+  background: white;
+}
+
+.table2 .table-body {
+  background: #90ee90c2;
 }
 
 .del-btn {

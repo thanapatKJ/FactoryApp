@@ -2,15 +2,60 @@
 
 {% block content %}
 <h2 align="center">ลงทะเบียน</h2>
+<br>
+<br>
 {% for message in form.error %}
     <h3>{{message}}</h3>
 {% endfor %}
-<form method="POST">
-    {% csrf_token %}
+<form class="w-100" method="POST">
+  {% csrf_token %}
+  <div class="form-group row col-7 mx-auto">
+    <div class="form-group col-6">
+      <label for="first_name">First name:</label>
+      <input type="text" class="form-control" id="first_name" name="first_name" required>
+    </div>
+
+    <div class="form-group col-6">
+      <label for="last_name">Last name:</label>
+      <input type="text" class="form-control" id="last_name" name="last_name" required>
+    </div>
+
+    <div class="form-group col-12">
+      <label for="username">Username:</label>
+      <input type="text" class="form-control" id="username" name="username" required>
+    </div>
+
+    <div class="form-group col-12">
+      <label for="password1">Password:</label>
+      <input type="password" class="form-control" id="password1" name="password1" required>
+    </div>
+
+    <div class="form-group col-12">
+      <label for="password2">Password confirmation:</label>
+      <input type="password" class="form-control" id="password2" name="password2" required>
+    </div>
+
+    <div class="form-group col-12">
+      <label for="email">Email address:</label>
+      <input type="text" class="form-control" id="email" name="email" required>
+    </div>
+
+    <div class="form-group col-12">
+      <label for="id_card">Id card:</label>
+      <input type="text" class="form-control" id="id_card" name="id_card" required>
+    </div>
+
+    <div class="form-group col-6">
+      <label for="roles">Roles:</label>
+      <select class="form-control" id="roles" name="roles">
+          <option value="{{data.roles}}" selected hidden>{{data.roles}}</option>
+          <option value="หัวหน้างาน">หัวหน้างาน</option>
+          <option value="พนักงาน">พนักงาน</option>
+          <option value="ผู้ดูแล">ผู้ดูแล</option>
+        </select>
+    </div>
     {% for field in form %}
     <p>
-        {{ field.label_tag}}<br>
-        {{ field }}
         {% if field.help_text %}
             <!-- <br>
             <small style="color: grey">{{ field.help_text }}</small> -->
@@ -21,8 +66,13 @@
     </p>
     {% endfor %}
     <br>
-    <input type="submit" value="ลงทะเบียน" class="btn btn-primary">
-    
-</form>
+    <br>
+  </div>
 
+  <div class="form-group row col-5 mx-auto">
+    <div class="form-group mx-auto">
+        <input type="submit" value="ลงทะเบียน" class="btn btn-primary">
+    </div>
+  </div>
+</form>
 {% endblock %}

@@ -1,25 +1,68 @@
 {% extends 'adm/header.html' %}
 
 {% block content %}
-    <form method='POST'>
+    <h1 align="center">ข้อมูลพนักงาน</h1>
+    <br>
+    <br>
+    <form class="100" method='POST'>
         {% csrf_token %}
-        <h1>ข้อมูลพนักงาน</h1></br>
-        <a>Username : <input type="text" name="username" id="username" placeholder="Username" value={{data.username}} required></a></br>
-        <a>First Name : <input type="text" name="first_name" id="first_name" placeholder="Firstname" value={{data.first_name}} required></a></br>
-        <a>Last Name : <input type="text" name="last_name" id="last_name" placeholder="Lastname" value={{data.last_name}} required></a></br>
-        <a>Email : <input type="text" name="email" id="email" placeholder="Email" value={{data.email}} required></a></br>
-        <a>ID พนักงาน : <b>{{data.id_card}}</b></a></br>
-        <a>ตำแหน่ง :         
-            <select class="form-control" id="roles" name="roles">
+        <div class="row col-7">
+          <div class="col-3">
+            <label>First name: </label>
+          </div>
+          <div class="col-9">
+            <input type="text" id="first_name" name="first_name" value={{data.first_name}} required>
+          </div>
+
+          <div class="col-3">
+            <label>Last name: </label>
+          </div>
+          <div class="col-9">
+            <input type="text" id="last_name" name="last_name" value={{data.last_name}} required>
+          </div>
+
+          <div class="col-3">
+            <label>Username : </label>
+          </div>
+          <div class="col-9">
+            <input type="text" id="username" name="username" value={{data.username}} required>
+          </div>
+
+          <div class="col-3">
+            <label>Email : </label>
+          </div>
+          <div class="col-9">
+            <input type="text" id="email" name="email" value={{data.email}} required>
+          </div>
+
+          <div class="col-3">
+            <label>ID พนักงาน : </label>
+          </div>
+          <div class="col-9">
+            <label><b>{{data.id_card}}</b></label>
+          </div>
+
+          <div class="col-3">
+            <label>ตำแหน่ง :</label>
+          </div>
+          <div class="col-9">
+            <select id="roles" name="roles">
                 <option value="{{data.roles}}" selected hidden>{{data.roles}}</option>
                 <option value="หัวหน้างาน">หัวหน้างาน</option>
                 <option value="พนักงาน">พนักงาน</option>
                 <option value="ผู้ดูแล">ผู้ดูแล</option>
             </select>
-        </a></br><br>
-        <button type="submit" name='edit' class="btn btn-secondary">แก้ไขข้อมูล</button>
-        <button type="submit" name='changepassword' class="btn btn-info">เปลี่ยนรหัสผ่าน</button>
-        <button type="submit" name='delete' class="btn btn-danger">ลบข้อมูล</button>
-        <button type="submit" name='cancel' class="btn btn-dark">ยกเลิก</button>
+          </div>
+
+        <br>
+        <br>
+        <br>
+        <br>
+      </div>
+      <button type="submit" name='edit' class="btn btn-secondary">แก้ไขข้อมูล</button>
+      <button type="submit" name='changepassword' class="btn btn-info">เปลี่ยนรหัสผ่าน</button>
+      <button type="submit" name='delete' class="btn btn-danger">ลบข้อมูล</button>
+      <button type="submit" name='cancel' class="btn btn-dark">ยกเลิก</button>
+      <br>
     </form>
 {% endblock %}
