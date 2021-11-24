@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from datetime import datetime
 from database.models import Branchs, ManageBranchs, UserHistories, WorkBranchs, WorkGroups, WorkPlans
 import json
+from .forms import WorkPlanForm
 
 def index(request):
     today = datetime.now()
@@ -31,18 +32,23 @@ def Allplan(request):
     all_group = WorkGroups.objects.filter(branch=branch)
     selected_group = []
     if request.method == "POST":
-        year = request.POST['date'][0:4]
-        month = request.POST['date'][5:7]
-        day = request.POST['date'][8:]
-        choose_group = request.POST.getlist('เลือกกลุ่มงาน')
-        for group in choose_group:
-            group_id = WorkGroups.objects.filter(group_name=group).first().id
-            plan = WorkPlans.objects.filter(group_name=group_id,datetime_start__day=day,datetime_start__month=month,datetime_start__year=year).first()
-            selected_group.append({
-                "group_name":group,
-                "worker":UserHistories.objects.filter(plan=plan).count(),
-                "group":plan
-            })
+        if 'addPlan' in request.POST:
+            return redirect('manager:addPlan')
+        else:
+            date = request.POST['date']
+            year = request.POST['date'][0:4]
+            month = request.POST['date'][5:7]
+            day = request.POST['date'][8:]
+            choose_group = request.POST.getlist('เลือกกลุ่มงาน')
+            for group in choose_group:
+                group_id = WorkGroups.objects.filter(group_name=group).first().id
+                plan = WorkPlans.objects.filter(group_name=group_id,datetime_start__day=day,datetime_start__month=month,datetime_start__year=year).first()
+                if plan:
+                    selected_group.append({
+                        "group_name":group,
+                        "worker":UserHistories.objects.filter(plan=plan).count(),
+                        "group":plan
+                    })
     else:
         for group in all_group:
             plan = WorkPlans.objects.filter(group_name=group,datetime_start__day=datetime.now().day,datetime_start__month=datetime.now().month,datetime_start__year=datetime.now().year).first()
@@ -52,11 +58,29 @@ def Allplan(request):
                 "worker":worker.count(),
                 "group":plan
             })
-        print(selected_group)
     return render(request,'manager/allPlan.html',{
         'date':date,
         'all_group':all_group,
         'data':selected_group
+    })
+
+def addPlan(request):
+    branch = ManageBranchs.objects.filter(manager=request.user).first()
+    all_group = WorkGroups.objects.filter(branch=branch.branch)
+    if request.method == "POST":
+        if 'ยืนยันเพิ่มงาน' in request.POST:
+            datetime_start = request.POST['datetime_start'][0:10]+" "+request.POST['datetime_start'][11:16]
+            datetime_end = request.POST['datetime_end'][0:10]+" "+request.POST['datetime_end'][11:16]
+            limit_ot = request.POST['limit_ot']
+            group = WorkGroups.objects.get(group_name=request.POST['เลือกกลุ่มงาน'])
+            WorkPlans.objects.create(
+                group_name=group,
+                datetime_start=datetime_start,
+                datetime_end=datetime_end,
+                limit_ot_hour=limit_ot)
+            return redirect('manager:Allplan')
+    return render(request,'manager/addPlan.html',{
+        'all_group':all_group
     })
 
 def deletePlan(request,pid):

@@ -11,17 +11,13 @@
         {% endfor %}
     </select>
     <input type="submit" value="ยืนยัน"><br><br>
-    <button type="submit" name='addPlan' class="btn btn-info">เพิ่มตารางงาน</button>
-
     <br>
     <br>
 {% if not data %}
 <h2 align="center" style="color:tomato">ไม่มีแผนงานในเดือนที่เลือก {{thismonth}}</h2>
 {% else %}
-{% for object in data %}
 <br><br>
 
-    <h4 align="center">{{object.group_name}}</h4>
     <table class="table">
         <thead>
             <tr>
@@ -31,6 +27,7 @@
                 <th scope="col">จำนวนพนักงานที่วางไว้</th>
             </tr>
         </thead>
+        {% for object in data %}
         <tbody id="table-data">
         <tr class="table-active" id="table">
             <td><a href="{% url 'manager:plan' pid=object.group.id %}">{{object.group.datetime_start}}</a></td>
@@ -40,8 +37,9 @@
             <td><a href="{% url 'manager:deletePlan' pid=object.group.id %}"style="color:tomato">ลบข้อมูล</a></td>
         </tr>
         </tbody>
+        {% endfor %}
     </table>
-{% endfor %}
 {% endif %}
+<button type="submit" name='addPlan' class="btn btn-info">เพิ่มตารางงาน</button>
 </form>
 {% endblock %}
