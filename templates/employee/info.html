@@ -1,17 +1,123 @@
-{% extends 'employee/header.html' %}
+<!doctype html>
+<html lang="en">
 
-{% block content %}
-    <h1>ข้อมูลพนักงาน</h1></br>
-    <a>Username : <b>{{user.username}}</b></a></br>
-    <a>First Name : <b>{{user.first_name}}</b></a></br>
-    <a>Last Name : <b>{{user.last_name}}</b></a></br>
-    <a>Email : <b>{{user.email}}</b></a></br>
-    <a>ID พนักงาน : <b>{{user.id_card}}</b></a></br>
-    <a>ตำแหน่ง : <b>{{user.roles}}</b></a></br></br>
-    {% if not branch%}
-        <a>แผนก : <b>ไม่พบแผนกที่สังกัด</b></a></br>
+<head>
+  {% extends 'employee/header.html' %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.88.1">
 
-    {% else %}
-        <a>แผนก : <b>{{branch.branch.name}}</b></a></br>
-    {% endif %}
-{% endblock %}
+
+  <!-- Bootstrap core CSS -->
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+
+  <!-- Custom styles for this template -->
+  <link href="grid.css" rel="stylesheet">
+</head>
+
+<body class="py-4">
+  {% block content %}
+  <main>
+    <div class="container">
+      <div class="row">
+        <h1>Profile</h1>
+      </div>
+      <hr class="my-8">
+      <div class="row justify-content-center">
+        <div class="col-3">
+          <label><b>First Name </b></label>
+        </div>
+        <div class="col">
+          <label>{{user.first_name}}</label>
+        </div>
+      </div>
+      <hr class="my-3">
+      <div class="row">
+        <div class="col-3">
+          <label><b>Last name</b></label>
+        </div>
+        <div class="col">
+          {{user.last_name}}
+        </div>
+      </div>
+      <hr class="my-3">
+      <div class="row">
+        <div class="col-3">
+          <b>E-mail</b>
+        </div>
+        <div class="col">
+          {{user.email}}
+        </div>
+      </div>
+      <hr class="my-3">
+      <div class="row">
+        <div class="col-3">
+          <b>ID card</b>
+        </div>
+        <div class="col">
+          {{user.id_card}}
+        </div>
+      </div>
+      <hr class="my-3">
+      <div class="row">
+        <div class="col-3">
+          <b>Roles</b>
+        </div>
+        <div class="col">
+          {{user.roles}}
+        </div>
+      </div>
+      <hr class="my-3">
+      <div class="row">
+        <div class="col-3">
+          <b>Department</b>
+        </div>
+        {% if not branch%}
+        <div class="col">
+          ไม่พบแผนกที่สังกัด
+        </div>
+        {% else %}
+        <div class="col">
+          {{branch.branch.name}}
+        </div>
+        {% endif %}
+      </div>
+
+      <h2 class="mt-4">Account</h2>
+      <hr class="my-4">
+      <div class="row">
+        <div class="col-3">
+          <b>Username</b>
+        </div>
+        <div class="col">
+          {{user.username}}
+        </div>
+      </div>
+
+
+    </div>
+  </main>
+
+
+  {% endblock %}
+</body>
+
+</html>
