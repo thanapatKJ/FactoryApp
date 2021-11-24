@@ -1,16 +1,23 @@
 {% extends 'adm/header.html' %}
 
 {% block content %}
-<h2 align="center">เพิ่มสาขา</h2>
+<h2 align="center">เพิ่มแผนก</h2>
+<br>
+<br>
+<br>
 {% for message in form.error %}
     <h3>{{message}}</h3>
 {% endfor %}
 <form method="POST">
     {% csrf_token %}
+    <div class="form-group row col-5 mx-auto">
+      <input type="text" class="form-control" id="branch" name="branch" required>
+      <br>
+      <br>
+      <br>
+      <br>
     {% for field in form %}
     <p>
-        {{ field.label_tag}}<br>
-        {{ field }}
         {% if field.help_text %}
             <!-- <br>
             <small style="color: grey">{{ field.help_text }}</small> -->
@@ -21,8 +28,12 @@
     </p>
     {% endfor %}
     <br>
-    <input type="submit" value="เพิ่มสาขา" class="btn btn-primary">
-    
+    <br>
+      <div class="mx-auto">
+        <input type="submit" value="ยืนยัน" class="btn btn-primary">
+      </div>
+    </div>
+
 </form>
 
 {% endblock %}
