@@ -6,33 +6,32 @@
     <a>หัวหน้างานทั้งหมด : {{all_manager}} คน</a><br>
     <a>พนักงานทั้งหมด : {{all_worker}} คน</a><br>
     <a>รวม : {{all}} คน</a><br>
-    
+
     <form action="" method="post">
-        {% csrf_token %}
-        <div class="ml-auto row col-4">
-            <div class="col">
-              <input type="text" id="search" class="form-control" placeholder="Seach ชื่อพนักงาน">
-            </div>
-            <input type="submit" value="ยืนยัน" class="btn btn-primary col-3">
+    {% csrf_token %}
+    <div class='table-responsive'>
+        <div class="row mx-0 my-1">
+          <div class="hidden-xs col-sm-7"></div>
+            <input type="text" id="search" class="form-control col ml-auto mr-1" placeholder="Seach ชื่อพนักงาน">
+            <input type="submit" value="ยืนยัน" class="btn btn-primary col-2 col-sm-1 px-0">
         </div>
     {% if not data %}
     <br>
     <h2 align="center" style="color:tomato">ไม่มีพนักงาน</h2>
     {% else %}
-    <div class='table-responsive'>
     <div id='table-work-group' class='table2 col'>
       <div class="row">
-          <div class="col table-header d-flex"><div class="my-auto">ชื่อ-นามสกุล</div></div>
-          <div class="col-3 table-header d-flex"><div class="my-auto">ตำแหน่ง</div></div>
-          <div class="col-3 table-header d-flex"><div class="my-auto">id พนักงาน</div></div>
+          <div class="col table-header d-flex"><div class="my-auto py-2">ชื่อ-นามสกุล</div></div>
+          <div class="col-3 table-header d-flex"><div class="my-auto py-2">ตำแหน่ง</div></div>
+          <div class="col-3 table-header d-flex"><div class="my-auto py-2">id พนักงาน</div></div>
           <div class="col-1 table-header text-center"></div>
       </div>
           {% for object in data %}
           <div class="row" id="table-data">
-            <div class='col table-body text-center d-flex'><a class="my-auto" href="{% url 'adm:userInfo' uid=object.id %}">{{object.first_name}} {{object.last_name}}</a></div>
-            <div class='col-3 table-body d-flex'><a class="my-auto">{{object.roles}}</a></div>
-            <div class='col-3 table-body d-flex'><a class="my-auto">{{object.id_card}}</a></div>
-            <div class='col-1 table-body text-center d-flex'><a class='del-btn m-auto' href="{% url 'adm:deleteUser' object.id %}"><i class="fas fa-trash"></i></a></div>
+            <div class='col table-body text-center d-flex pl-2 pr-0'><a class="my-auto py-2" href="{% url 'adm:userInfo' uid=object.id %}">{{object.first_name}} {{object.last_name}}</a></div>
+            <div class='col-3 table-body d-flex pl-2 pr-0'><a class="my-auto py-2">{{object.roles}}</a></div>
+            <div class='col-3 table-body d-flex pl-2 pr-0'><a class="my-auto py-2">{{object.id_card}}</a></div>
+            <div class='col-1 table-body text-center d-flex'><a class='del-btn m-auto py-2' href="{% url 'adm:deleteUser' object.id %}"><i class="fas fa-trash"></i></a></div>
           </div>
           {% endfor %}
     </div>

@@ -1,3 +1,18 @@
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+
 .btn-group .button1 {
   background-color: #4CAF50; /* Green */
   border: none;
@@ -15,52 +30,12 @@
   background-color: #3e8e41;
 }
 
-.bd-placeholder-img {
-  font-size: 1.125rem;
-  text-anchor: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-@media (min-width: 768px) {
-  .bd-placeholder-img-lg {
-    font-size: 3.5rem;
-  }
-}
-
 .nav-link-green {
   color: #fefefe !important;
 }
 
 .nav-link-green:hover, .nav-link-green:focus {
   color: #0a2d04 !important;
-}
-
-.table {
-  border: #0a2d04 2px solid;
-  background: white;
-}
-
-.table .row:first-child {
-  padding-top: .1rem;
-}
-.table .row {
-  padding-bottom: .1rem;
-  padding-left: .1rem;
-  padding-right: .1rem;
-  height: 40px;
-}
-.table .table-header {
-  background: white;
-}
-
-.table .table-body {
-  background: #90ee90c2;
-}
-
-.table .table-header:nth-child(n+2), .table .table-body:nth-child(n+2) {
-  margin-left: .1rem
 }
 
 .table2 {
@@ -75,6 +50,7 @@
   padding-bottom: .1rem;
   padding-left: .1rem;
   padding-right: .1rem;
+  height: 40px;
 }
 .table2 .table-header {
   background: white;
