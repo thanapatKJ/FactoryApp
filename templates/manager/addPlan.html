@@ -1,19 +1,91 @@
-{% extends 'manager/header.html' %}
-{% block content %}
-<h2 align="center">เพิ่มตารางงาน</h2>
+<!doctype html>
+<html lang="en">
 
-<form action="" method="post">
-    {% csrf_token %} 
-    <a>กลุ่มงาน</a><br>
-    <select name ="เลือกกลุ่มงาน" required size = 3>
-        {% for group in all_group %}
-            <option value ="{{group.group_name}}">{{group.group_name}}</option>
-        {% endfor %}
-    </select><br>
-    <a>เวลาเริ่มงาน </a><input type="datetime-local" name="datetime_start" id="datetime_start" required><br>
-    <a>เวลาเลิกงาน </a><input type="datetime-local" name="datetime_end" id="datetime_end" required><br>
-    <a>จำนวนชั่วโมง OT สูงสุด </a>
-    <input type=number name='limit_ot' id='limit_ot' step=0.1 required min=0.0 max=24.0 value=0.0><br/>
-<button type="submit" name='ยืนยันเพิ่มงาน' class="btn btn-info">ยืนยันเพิ่มงาน</button>
-</form>
+<head>
+  {% extends 'manager/header.html' %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+  <!-- Bootstrap core CSS -->
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+
+  <!-- Custom styles for this template -->
+  <link href="grid.css" rel="stylesheet">
+</head>
+{% block content %}
+
+<body>
+  <div class="container">
+    <main>
+      <div class="row justify-content-center">
+        <h2><b>เพิ่มตารางงาน </b></h2>
+      </div>
+      <!--- Form -->
+      <form action="" method="post">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-3 col-12">
+            <b>กลุ่มงาน</b>
+          </div>
+          <div class="col">
+            <select name="เลือกกลุ่มงาน" required size=4>
+              {% for group in all_group %}
+              <option value="{{group.group_name}}">{{group.group_name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <hr class="my-4">
+        <div class="row">
+          <div class="col-md-3 col-12">
+            <b>เวลาเริ่มงาน</b>
+          </div>
+          <div class="col">
+            <input type="datetime-local" name="datetime_start" id="datetime_start" required>
+          </div>
+        </div>
+        <hr class="my-4">
+        <div class="row">
+          <div class="col-md-3 col-12">
+            <b>เวลาเลิกงาน</b>
+          </div>
+          <div class="col">
+            <input type="datetime-local" name="datetime_end" id="datetime_end" required>
+          </div>
+        </div>
+        <hr class="my-4">
+        <div class="row">
+          <div class="col-md-3 col-12 ">
+            <b>จำนวนชั่วโมง OT สูงสุด </b>
+          </div>
+          <div class="col">
+            <input type=number name='limit_ot' id='limit_ot' step=0.1 required min=0.0 max=24.0 value=0.0>
+          </div>
+        </div>
+        <hr class="my-4">
+        <div class="row justify-content-center">
+          <button type="submit" name='ยืนยันเพิ่มงาน' class="w-50 btn btn-primary btn-lg">ยืนยันเพิ่มงาน</button>
+        </div>
+      </form>
+    </main>
+  </div>
+</body>
 {% endblock %}
