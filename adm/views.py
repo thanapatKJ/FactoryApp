@@ -45,13 +45,19 @@ def branch(request,name):
     })
 
 def addBranch(request):
-    form = addBranchForm()
+    addbranch=""
+    message = ""
     if request.method== 'POST':
-        form = addBranchForm(request.POST)
-        if form.is_valid():
-            form.save()
+        addbranch = request.POST['branch']
+        checkbranch = Branchs.objects.filter(name=addbranch).first()
+        if not checkbranch:
+            Branchs.objects.create(name=addbranch)
             return redirect('adm:index')
-    return render(request,'adm/addBranch.html',{'form':form})
+        else:
+            message = "ชื่อแผนกซ้ำ"
+    return render(request,'adm/addBranch.html',{
+        'branch':addbranch,
+        'message':message})
 
 def deleteBranch(request,name):
     Branchs.objects.get(name=name).delete()
