@@ -25,8 +25,141 @@ def index(request):
         'data':today_groups,
     })
 
-def group(request,gid):
-    return render(request,'manager/groupChoice.html')
+def todayPlan(request,pid):
+    today = datetime.now().date()
+    plan = WorkPlans.objects.filter(id=pid).first()
+    data = UserHistories.objects.filter(plan=plan)
+    worker = UserHistories.objects.filter(plan=plan).count()
+    workerIn = UserHistories.objects.filter(plan=plan).exclude(datetime_checkin__isnull=True).count()
+    if 'เพิ่มพนักงาน' in request.POST:
+        return redirect('manager:addWorker',pid=pid)
+    elif 'checkin' in request.POST:
+        return redirect('manager:checkin',pid=pid)
+    elif 'checkout' in request.POST:
+        return redirect('manager:checkout',pid=pid)
+    return render(request,'manager/todayPlan.html',{
+        'data':data,
+        'today':today,
+        'worker':worker,
+        'group_name':plan.group_name.group_name,
+        'workerIn':workerIn,
+        'plan':plan
+    })
+def checkin(request,pid):
+    today = datetime.now()
+    plan = WorkPlans.objects.filter(id=pid).first()
+    message=""
+    id_card=""
+    if 'ยืนยัน' in request.POST:
+        id_card = request.POST['id_card']
+        user = Users.objects.filter(id_card=id_card).first()
+        print(user)
+        object = UserHistories.objects.filter(plan=plan,user=user).first()
+        if object:
+            object = UserHistories.objects.get(plan=plan,user=user)
+            object.datetime_checkin = datetime.now()
+            object.save()
+            message = "Check In at "+str(datetime.now())
+        else:
+            message = "Incorrect ID_card"
+    elif 'ยกเลิก' in request.POST:
+        return redirect('manager:todayPlan',pid=pid)
+    return render(request,'manager/checkin.html',{
+        'today':today.date(),
+        'plan':plan,
+        'id_card':id_card,
+        'message':message
+    })
+def checkout(request,pid):
+    today = datetime.now()
+    plan = WorkPlans.objects.filter(id=pid).first()
+    message=""
+    id_card=""
+    if 'ยืนยัน' in request.POST:
+        id_card = request.POST['id_card']
+        user = Users.objects.filter(id_card=id_card).first()
+        print(user)
+        object = UserHistories.objects.filter(plan=plan,user=user).first()
+        if object:
+            object = UserHistories.objects.get(plan=plan,user=user)
+            object.datetime_checkout = datetime.now()
+            if not object.custom_ot:
+                dif_time = (datetime.now()-object.datetime_checkin).total_seconds()
+                h = dif_time//3600
+                m = (dif_time%3600) //60
+                object.ot_hour=float("%d.%d"%(h,m))
+            object.save()
+            message = "Check Out at "+str(datetime.now())
+        else:
+            message = "Incorrect ID_card"
+    elif 'ยกเลิก' in request.POST:
+        return redirect('manager:todayPlan',pid=pid)
+    return render(request,'manager/checkout.html',{
+        'today':today.date(),
+        'plan':plan,
+        'id_card':id_card,
+        'message':message
+    })
+
+def addWorker(request,pid):
+    plan = WorkPlans.objects.get(id=pid)
+    if request.method=="POST":
+        if 'ยืนยันเพิ่มพนักงาน' in request.POST:
+            for user in request.POST.getlist('เลือกกลุ่มงาน'):
+                thisUser = Users.objects.get(id=user)
+                UserHistories.objects.create(
+                    user=thisUser,
+                    plan=plan)
+            return redirect('manager:todayPlan',pid=pid)
+    else:
+        branch = ManageBranchs.objects.get(manager=request.user).branch
+        busy_user = UserHistories.objects.filter(plan__id=pid)
+        busy_userID = []
+        for user in busy_user:
+            busy_userID.append(user.user)
+        print(busy_userID)
+        worker_branch = WorkBranchs.objects.filter(branch=branch)
+        worker_branchID = []
+        for worker in worker_branch:
+            worker_branchID.append(worker.user)
+        list_worker=set(worker_branchID).difference(set(busy_userID))
+    return render(request,'manager/addUser.html',{
+        'plan':plan,
+        'list_worker':list_worker,
+    })
+def removeWorker(request,pid,uid):
+    UserHistories.objects.get(
+        user=uid,
+        plan=pid).delete()
+    return redirect('manager:todayPlan',pid=pid)
+
+def editOT(request,pid,uid):
+    today = datetime.now()
+    plan = WorkPlans.objects.filter(id=pid).first()
+    worker = Users.objects.get(id=uid)
+    history = UserHistories.objects.get(user__id=uid,plan=plan)
+    if request.method=="POST":
+        if 'แก้ไขOT' in request.POST:
+            object = UserHistories.objects.get(user__id=uid,plan__id=pid)
+            if request.POST.get('custom',False):
+                print("custom")
+                object.custom_ot=True
+                object.ot_hour=request.POST['ot']
+                object.save()
+            elif not request.POST.get('custom',False):
+                print('plan')
+                object.custom_ot=False
+                object.ot_hour=0.0
+                object.save()
+            return redirect('manager:todayPlan',pid=pid)
+    return render(request,'manager/editOT.html',{
+        'plan':plan,
+        'today':today.date(),
+        'worker':worker,
+        'history':history
+    })
+
+
 #---------------------------------------------------------------
 # แผนงาน
 def Allplan(request):
@@ -119,10 +252,11 @@ def addUser(request,pid):
             return redirect('manager:plan',pid=pid)
     else:
         branch = ManageBranchs.objects.get(manager=request.user).branch
-        busy_user = UserHistories.objects.filter(plan__group_name__branch=branch)
+        busy_user = UserHistories.objects.filter(plan__id=pid)
         busy_userID = []
         for user in busy_user:
             busy_userID.append(user.user)
+        print(busy_userID)
         worker_branch = WorkBranchs.objects.filter(branch=branch)
         worker_branchID = []
         for worker in worker_branch:

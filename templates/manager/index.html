@@ -21,7 +21,7 @@
         {% for object in data %}
         <tr class="table-active" id="table">
           <td><a>{{forloop.counter}}</a></td>
-          <td><a href="{% url 'manager:group' gid=object.plan.id %}">{{object.plan.group_name}}</a></td>
+          <td><a href="{% url 'manager:todayPlan' pid=object.plan.id %}">{{object.plan.group_name}}</a></td>
           <td><a>{{object.plan.datetime_start}}</a></td>
           <td><a>{{object.plan.datetime_end}}</a></td>
           <td><a>{{object.workerIn}}/{{object.worker}}</a></td>
