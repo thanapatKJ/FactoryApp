@@ -1,0 +1,22 @@
+{% extends 'manager/header.html' %}
+
+{% block content %}
+<form method="post">
+{% csrf_token %}
+    <h2 align="center">กลุ่มงาน {{plan.group_name.group_name}}</h2>
+    <h4 align="center">{{today}}</h4>
+    <br><br>
+    <h4>กำหนด OT พนักงาน</h4><br>
+    <a>ชื่อ นามสกุลพนักงาน : {{worker.first_name}} {{worker.last_name}}</a><br>
+    <a>ID card : {{worker.id_card}}</a><br>
+    <a>email : {{worker.email}}</a><br>
+    <a>ตำแหน่ง : {{worker.roles}}</a><br>
+    <input type="checkbox" name="custom" id="custom" {% if history.custom_ot %} checked {% endif %}><a>เลือกเพื่อใช้ OT ที่กำหนดให้</a><br>
+    <a>OT สูงสุดของวัน : {{plan.limit_ot_hour}}</a><br>
+    <a>OT ที่กำหนดให้ : <input type=number name='ot' id='ot' step=0.1 required min=0.0 max=24.0 value={{history.ot_hour}}><br/> </a><br>
+    <br><br>
+    <button type="submit" name='แก้ไขOT' class="btn btn-info">ยืนยัน</button>
+
+</form>
+
+{% endblock %}
